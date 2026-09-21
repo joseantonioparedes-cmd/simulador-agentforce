@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Simulador Agentforce Specialist</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <div class="container">
+    
+    <!-- PANTALLA 1: MENÚ PRINCIPAL -->
+    <div class="card" id="menu-screen">
+      <h1 class="menu-title">Simulador Agentforce Specialist</h1>
+      <p class="menu-subtitle">Selecciona una sección para estudiar sus preguntas o toma un simulacro completo. <br><small>💡 Puedes hacer <strong>clic derecho</strong> en cualquier momento para cambiar el idioma.</small></p>
+      
+      <div class="block-grid" id="block-cards-container"></div>
+      
+      <hr style="margin: 25px 0; border: none; border-top: 1px solid var(--border);">
+      <button class="btn btn-exam" onclick="startExamMode()">📝 Simular Examen Completo</button>
+    </div>
+
+    <!-- PANTALLA 2: VISTA DE ESTUDIO -->
+    <div class="card" id="quiz-screen" style="display: none;">
+      <div class="block-header">
+        <h2 id="block-title">Sección</h2>
+        <div class="block-header-actions">
+          <label class="toggle-switch-container">
+            <input type="checkbox" id="toggle-wrong-checkbox" onchange="toggleShowWrongOnly()">
+            <span class="toggle-slider"></span>
+            <span class="toggle-label">Solo Incorrectas</span>
+          </label>
+          <button class="btn btn-check" style="margin-top:0;" onclick="revealAllAnswers()">👁️ Mostrar Respuestas</button>
+          <button class="btn btn-shuffle" onclick="shuffleCurrentBlock()">🔀 Mezclar Preguntas</button>
+          <button class="btn btn-secondary" onclick="returnToMenu()">← Volver al Menú</button>
+        </div>
+      </div>
+      
+      <div id="questions-list-container"></div>
+    </div>
+
+    <!-- PANTALLA 3: RESULTADOS DE EXAMEN -->
+    <div class="card" id="results-screen" style="display: none;">
+      <h2 style="text-align: center; margin-bottom: 8px; color: var(--primary);">Resultados del Examen</h2>
+      <p style="text-align: center; font-size: 1.4rem; font-weight: bold; margin-bottom: 25px;">
+        Puntaje: <span id="final-score" style="color: var(--primary);">0</span> / <span id="total-q">0</span>
+      </p>
+      <div id="review-container"></div>
+      <button class="btn btn-exam" onclick="returnToMenu()">Volver al Menú Principal</button>
+    </div>
+
+  </div>
+
+  <!-- POPUP MODAL -->
+  <div class="modal-overlay" id="custom-modal">
+    <div class="modal-card">
+      <div class="modal-icon">⚠️</div>
+      <div class="modal-message" id="modal-msg">Mensaje de advertencia</div>
+      <button class="btn" onclick="closeModal()">Entendido</button>
+    </div>
+  </div>
+
+  <!-- MENÚ CONTEXTUAL PARA CAMBIO DE IDIOMA (CLIC DERECHO) -->
+  <div id="context-menu" class="context-menu">
+    <div class="context-menu-header">🌐 Idioma / Language</div>
+    <div class="context-menu-item" onclick="changeLanguage('ENG')">
+      <span>🇺🇸 English</span> <span id="lang-check-ENG" class="lang-check">✓</span>
+    </div>
+    <div class="context-menu-item" onclick="changeLanguage('ESP')">
+      <span>🇪🇸 Español</span> <span id="lang-check-ESP" class="lang-check">✓</span>
+    </div>
+    <div class="context-menu-item" onclick="changeLanguage('MIRROR')">
+      <span>🪞 Mirror (ENG + ESP)</span> <span id="lang-check-MIRROR" class="lang-check">✓</span>
+    </div>
+  </div>
+
+  <!-- ARCHIVOS DE PREGUNTAS -->
+  <script src="questionsENG.js"></script>
+  <script src="questionsESP.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
