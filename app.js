@@ -5,6 +5,11 @@ let sectionStats = {};
 let isExamMode = false;
 let showWrongOnly = false; 
 
+// Control de Paginación
+let isPaginated = true;
+let currentPage = 1;
+const pageSize = 30; // Tamaño de página deseado
+
 // Idioma actual: 'ENG', 'ESP' o 'MIRROR'
 let currentLang = localStorage.getItem("sf_agentforce_lang") || "ENG";
 
@@ -25,8 +30,6 @@ function getActiveRawQuestions(lang = currentLang) {
 
 function groupQuestionsByCategory() {
   questionsBySection = {};
-  
-  // 1. Siempre usamos el banco en inglés como la fuente principal de verdad
   const rawEngPool = typeof QUESTIONS_ENG !== "undefined" ? QUESTIONS_ENG : (typeof QUESTIONS !== "undefined" ? QUESTIONS : []);
   const sourceQuestions = getActiveRawQuestions();
 
@@ -37,7 +40,7 @@ function groupQuestionsByCategory() {
         questionsBySection[cat] = [];
       }
 
-      // 2. Determinar los índices correctos estrictamente desde la pregunta en INGLÉS
+      // Determinar respuesta correcta usando SIEMPRE el banco en inglés
       const correctIndices = [];
       qEng.choices.forEach((choice, idx) => {
         if (cleanOptionText(choice) === cleanOptionText(qEng.correctAnswerText)) {
@@ -45,7 +48,6 @@ function groupQuestionsByCategory() {
         }
       });
 
-      // 3. Buscar la versión actual según el idioma seleccionado (ENG, ESP o MIRROR)
       const currentRaw = (Array.isArray(sourceQuestions) ? sourceQuestions.find(q => q.id === qEng.id) : null) || qEng;
 
       questionsBySection[cat].push({
@@ -53,7 +55,7 @@ function groupQuestionsByCategory() {
         question: currentRaw.question,
         options: currentRaw.choices.map(opt => cleanOptionText(opt)),
         originalOptionsENG: qEng.choices.map(opt => cleanOptionText(opt)),
-        answer: correctIndices, // <--- La respuesta correcta SIEMPRE la dicta el banco en Inglés
+        answer: correctIndices,
         multiple: correctIndices.length > 1,
         explanation: currentRaw.explanation || qEng.explanation || "Sin explicación disponible."
       });
@@ -100,8 +102,10 @@ function initContextMenu() {
 
 function updateLangMenuCheck() {
   const checkENG = document.getElementById("lang-check-ENG");
+  const checkESP = document.getElementById("lang-check-ESP");
   const checkMIRROR = document.getElementById("lang-check-MIRROR");
   if (checkENG) checkENG.style.display = currentLang === "ENG" ? "inline" : "none";
+  if (checkESP) checkESP.style.display = currentLang === "ESP" ? "inline" : "none";
   if (checkMIRROR) checkMIRROR.style.display = currentLang === "MIRROR" ? "inline" : "none";
 }
 
@@ -179,7 +183,7 @@ function shuffleArray(array) {
 }
 
 function cleanOptionText(text) {
-  return text.replace(/^[A-F][\)\.\:\-]\s*/i, "").trim();
+  return text ? text.replace(/^[A-F][\)\.\:\-]\s*/i, "").trim() : "";
 }
 
 function shuffleQuestionOptions(question) {
@@ -293,6 +297,8 @@ function resetSectionStats(sectionKey) {
 function openSection(sectionKey) {
   isExamMode = false;
   showWrongOnly = false;
+  isPaginated = true;
+  currentPage = 1;
   updateToggleBtnUI();
 
   currentSectionKey = sectionKey;
@@ -347,6 +353,14 @@ function openSection(sectionKey) {
   }
 }
 
+// CONTROLADOR DE ACTIVAR / DESACTIVAR PAGINACIÓN
+function togglePagination() {
+  const checkbox = document.getElementById("toggle-paginate-checkbox");
+  isPaginated = checkbox ? checkbox.checked : true;
+  currentPage = 1;
+  renderQuestionsList();
+}
+
 function toggleShowWrongOnly() {
   if (isExamMode) return;
 
@@ -368,43 +382,61 @@ function toggleShowWrongOnly() {
   }
 
   showWrongOnly = checkbox ? checkbox.checked : false;
-  applyWrongOnlyFilter();
+  currentPage = 1;
+  renderQuestionsList();
 }
 
 function updateToggleBtnUI() {
-  const checkbox = document.getElementById("toggle-wrong-checkbox");
-  if (checkbox) {
-    checkbox.checked = showWrongOnly;
+  const checkboxWrong = document.getElementById("toggle-wrong-checkbox");
+  if (checkboxWrong) {
+    checkboxWrong.checked = showWrongOnly;
+  }
+  const checkboxPaginate = document.getElementById("toggle-paginate-checkbox");
+  if (checkboxPaginate) {
+    checkboxPaginate.checked = isPaginated;
   }
 }
 
-function applyWrongOnlyFilter() {
-  currentQuestionsList.forEach((_, qIndex) => {
-    const qCard = document.getElementById(`q-card-${qIndex}`);
-    const feedback = document.getElementById(`feedback-${qIndex}`);
-
-    if (!qCard) return;
-
+// MEZCLAR: Si la paginación está ACTIVA, mezcla SOLO las preguntas de la página actual.
+// Si la paginación está DESACTIVADA, mezcla TODO el bloque.
+function shuffleCurrentBlock() {
+  let filteredIndices = [];
+  currentQuestionsList.forEach((_, idx) => {
     if (showWrongOnly) {
-      if (feedback && feedback.classList.contains("incorrect") && feedback.style.display === "block") {
-        qCard.style.display = "block";
-      } else {
-        qCard.style.display = "none";
+      const feedbackPrev = document.getElementById(`feedback-${idx}`);
+      if (feedbackPrev && feedbackPrev.classList.contains("incorrect") && feedbackPrev.style.display === "block") {
+        filteredIndices.push(idx);
       }
     } else {
-      qCard.style.display = "block";
+      filteredIndices.push(idx);
     }
   });
-}
 
-function shuffleCurrentBlock() {
-  let shuffledQuestions = shuffleArray(currentQuestionsList);
-  currentQuestionsList = shuffledQuestions.map(q => shuffleQuestionOptions(q));
-  
-  userAnswers = {};
-  showWrongOnly = false;
-  updateToggleBtnUI();
-  
+  if (isPaginated && !isExamMode) {
+    // Mezclar únicamente las preguntas que están visibles en la página actual
+    const startIndex = (currentPage - 1) * pageSize;
+    const endIndex = Math.min(startIndex + pageSize, filteredIndices.length);
+    const currentPageIndices = filteredIndices.slice(startIndex, endIndex);
+
+    // Extraer los objetos de la página actual
+    let pageItems = currentPageIndices.map(idx => currentQuestionsList[idx]);
+    
+    // Barajar su orden entre sí y mezclar sus opciones de respuesta
+    let shuffledPageItems = shuffleArray(pageItems).map(q => shuffleQuestionOptions(q));
+
+    // Reemplazar las preguntas barajadas de nuevo en la lista principal
+    currentPageIndices.forEach((originalIdx, i) => {
+      currentQuestionsList[originalIdx] = shuffledPageItems[i];
+      delete userAnswers[originalIdx]; // Limpiar respuestas previas de los elementos mezclados
+    });
+  } else {
+    // Mezclar todo el bloque completo
+    let shuffledQuestions = shuffleArray(currentQuestionsList);
+    currentQuestionsList = shuffledQuestions.map(q => shuffleQuestionOptions(q));
+    userAnswers = {};
+    currentPage = 1;
+  }
+
   renderQuestionsList();
   saveSectionSession(currentSectionKey);
 }
@@ -458,6 +490,7 @@ function returnToMenu() {
   document.getElementById("results-screen").style.display = "none";
 }
 
+// RENDERIZADO Y PAGINACIÓN
 function renderQuestionsList() {
   const container = document.getElementById("questions-list-container");
   container.innerHTML = "";
@@ -466,7 +499,31 @@ function renderQuestionsList() {
   const rawEngPool = typeof QUESTIONS_ENG !== "undefined" ? QUESTIONS_ENG : QUESTIONS;
   const rawEspPool = typeof QUESTIONS_ESP !== "undefined" ? QUESTIONS_ESP : [];
 
-  currentQuestionsList.forEach((q, qIndex) => {
+  let filteredIndices = [];
+  currentQuestionsList.forEach((_, idx) => {
+    if (showWrongOnly) {
+      const feedbackPrev = document.getElementById(`feedback-${idx}`);
+      if (feedbackPrev && feedbackPrev.classList.contains("incorrect") && feedbackPrev.style.display === "block") {
+        filteredIndices.push(idx);
+      }
+    } else {
+      filteredIndices.push(idx);
+    }
+  });
+
+  const totalItems = filteredIndices.length;
+  const totalPages = (isExamMode || !isPaginated) ? 1 : Math.ceil(totalItems / pageSize) || 1;
+
+  if (currentPage > totalPages) currentPage = totalPages;
+
+  const startIndex = (isExamMode || !isPaginated) ? 0 : (currentPage - 1) * pageSize;
+  const endIndex = (isExamMode || !isPaginated) ? totalItems : Math.min(startIndex + pageSize, totalItems);
+  const pageIndices = filteredIndices.slice(startIndex, endIndex);
+
+  renderPaginationControls(totalPages, totalItems);
+
+  pageIndices.forEach((qIndex) => {
+    const q = currentQuestionsList[qIndex];
     const qCard = document.createElement("div");
     const cardClass = q.multiple ? "question-item multiple-choice" : "question-item single-choice";
     
@@ -478,12 +535,10 @@ function renderQuestionsList() {
     qCard.id = `q-card-${qIndex}`;
 
     const selectedOptions = userAnswers[qIndex] || [];
-
     const checkBtnLabel = (currentLang === "ESP") ? "Comprobar Respuesta" : "Check Answer";
     const expLabel = (currentLang === "ESP") ? "💡 Explicación:" : "💡 Explanation:";
 
     if (currentLang === "MIRROR") {
-      // MODO ESPEJO LADO A LADO (SPLIT VIEW)
       const engMatch = rawEngPool.find(item => item.id === q.id);
       const espMatch = rawEspPool.find(item => item.id === q.id);
 
@@ -501,7 +556,6 @@ function renderQuestionsList() {
         const engIdx = cleanEngChoices.indexOf(engOptText);
         const espOptText = (engIdx !== -1 && cleanEspChoices[engIdx]) ? cleanEspChoices[engIdx] : engOptText;
 
-        // Ambos lados comparten la misma función de selección selectOption y atributo data-opt-index
         optionsEngHTML += `
           <button class="option ${isSelected}" data-opt-index="${optIndex}" onclick="selectOption(${qIndex}, ${optIndex}, ${q.multiple}, ${q.answer.length})">
             <span><strong>${dynamicLetter})</strong> ${engOptText}</span>
@@ -518,13 +572,11 @@ function renderQuestionsList() {
       qCard.innerHTML = `
         <div class="question-type-badge">${badgeText}</div>
         <div class="mirror-split-container">
-          <!-- COLUMNA IZQUIERDA (ENGLISH) -->
           <div class="mirror-col">
             <div class="mirror-col-header">🇺🇸 English</div>
             <div class="question-title">${qIndex + 1}. ${engMatch ? engMatch.question : q.question}</div>
             <div class="options-grid">${optionsEngHTML}</div>
           </div>
-          <!-- COLUMNA DERECHA (ESPAÑOL) -->
           <div class="mirror-col">
             <div class="mirror-col-header">🇪🇸 Español</div>
             <div class="question-title">${qIndex + 1}. ${espMatch ? espMatch.question : q.question}</div>
@@ -542,7 +594,6 @@ function renderQuestionsList() {
       `;
 
     } else {
-      // MODO ESTÁNDAR (UN SOLO IDIOMA)
       let optionsHTML = "";
       q.options.forEach((optText, optIndex) => {
         const cleanText = cleanOptionText(optText);
@@ -571,7 +622,6 @@ function renderQuestionsList() {
 
     container.appendChild(qCard);
 
-    // Restaurar estado si la pregunta ya estaba evaluada/revelada
     if (q.isEvaluatedState) {
       if (q.isRevealedAllState) {
         const correctArr = [...q.answer];
@@ -617,10 +667,42 @@ function renderQuestionsList() {
     submitExamBtn.onclick = showExamResults;
     container.appendChild(submitExamBtn);
   }
+}
 
-  if (showWrongOnly) {
-    applyWrongOnlyFilter();
+function renderPaginationControls(totalPages, totalItems) {
+  const topControls = document.getElementById("pagination-top");
+  const bottomControls = document.getElementById("pagination-bottom");
+
+  if (isExamMode || !isPaginated || totalPages <= 1) {
+    topControls.style.display = "none";
+    bottomControls.style.display = "none";
+    return;
   }
+
+  topControls.style.display = "flex";
+  bottomControls.style.display = "flex";
+
+  const prevDisabled = currentPage === 1 ? "disabled style='opacity:0.5; cursor:not-allowed;'" : "";
+  const nextDisabled = currentPage === totalPages ? "disabled style='opacity:0.5; cursor:not-allowed;'" : "";
+
+  const labelText = (currentLang === "ESP")
+    ? `Página ${currentPage} de ${totalPages} (${totalItems} preguntas)`
+    : `Page ${currentPage} of ${totalPages} (${totalItems} questions)`;
+
+  const html = `
+    <button class="btn btn-secondary" ${prevDisabled} onclick="goToPage(${currentPage - 1})">← Anterior</button>
+    <span style="font-weight: 600; font-size: 0.95rem; color: var(--text-main);">${labelText}</span>
+    <button class="btn btn-secondary" ${nextDisabled} onclick="goToPage(${currentPage + 1})">Siguiente →</button>
+  `;
+
+  topControls.innerHTML = html;
+  bottomControls.innerHTML = html;
+}
+
+function goToPage(page) {
+  currentPage = page;
+  renderQuestionsList();
+  window.scrollTo({ top: 0, behavior: "smooth" });
 }
 
 function selectOption(qIndex, optIndex, isMultiple, maxAllowed) {
@@ -648,17 +730,18 @@ function selectOption(qIndex, optIndex, isMultiple, maxAllowed) {
 
   userAnswers[qIndex] = currentSel;
 
-  // Actualiza los botones de AMBAS columnas en caso de estar en modo Espejo (MIRROR)
   const qCard = document.getElementById(`q-card-${qIndex}`);
-  const optionBtns = qCard.querySelectorAll(".option");
-  optionBtns.forEach((btn) => {
-    const idx = parseInt(btn.getAttribute("data-opt-index"));
-    if (currentSel.includes(idx)) {
-      btn.classList.add("selected");
-    } else {
-      btn.classList.remove("selected");
-    }
-  });
+  if (qCard) {
+    const optionBtns = qCard.querySelectorAll(".option");
+    optionBtns.forEach((btn) => {
+      const idx = parseInt(btn.getAttribute("data-opt-index"));
+      if (currentSel.includes(idx)) {
+        btn.classList.add("selected");
+      } else {
+        btn.classList.remove("selected");
+      }
+    });
+  }
 
   if (!isExamMode) {
     saveSectionSession(currentSectionKey);
@@ -686,9 +769,10 @@ function checkSingleAnswer(qIndex) {
   q.isRevealedAllState = false;
 
   const qCard = document.getElementById(`q-card-${qIndex}`);
+  if (!qCard) return;
+
   const optionBtns = qCard.querySelectorAll(".option");
 
-  // Aplica las clases de éxito o error a los botones de las opciones
   optionBtns.forEach((btn) => {
     btn.style.pointerEvents = "none";
     const idx = parseInt(btn.getAttribute("data-opt-index"));
@@ -702,36 +786,30 @@ function checkSingleAnswer(qIndex) {
   });
 
   const feedback = document.getElementById(`feedback-${qIndex}`);
-  feedback.style.display = "block";
+  if (feedback) {
+    feedback.style.display = "block";
+    const expBox = document.getElementById(`explanation-${qIndex}`);
 
-  const expBox = document.getElementById(`explanation-${qIndex}`);
-
-  if (isCorrect) {
-    feedback.className = "feedback-box correct";
-    feedback.innerText = (currentLang === "ESP") ? "¡Correcto!" : "Correct!";
-    sectionStats[currentSectionKey].correct++;
-    
-    // Oculta la explicación si la respuesta es correcta
-    if (expBox) expBox.style.display = "none";
-  } else {
-    feedback.className = "feedback-box incorrect";
-    feedback.innerText = (currentLang === "ESP") 
-      ? "Incorrecto. Revisa la respuesta marcada en verde." 
-      : "Incorrect. Check the response marked in green.";
-    sectionStats[currentSectionKey].incorrect++;
-    
-    // Muestra la explicación únicamente si la respuesta es incorrecta
-    if (expBox) expBox.style.display = "block";
+    if (isCorrect) {
+      feedback.className = "feedback-box correct";
+      feedback.innerText = (currentLang === "ESP") ? "¡Correcto!" : "Correct!";
+      sectionStats[currentSectionKey].correct++;
+      if (expBox) expBox.style.display = "none";
+    } else {
+      feedback.className = "feedback-box incorrect";
+      feedback.innerText = (currentLang === "ESP") 
+        ? "Incorrecto. Revisa la respuesta marcada en verde." 
+        : "Incorrect. Check the response marked in green.";
+      sectionStats[currentSectionKey].incorrect++;
+      if (expBox) expBox.style.display = "block";
+    }
   }
 
   saveStatsToStorage();
-  document.getElementById(`btn-check-${qIndex}`).style.display = "none";
+  const btnCheck = document.getElementById(`btn-check-${qIndex}`);
+  if (btnCheck) btnCheck.style.display = "none";
   
   saveSectionSession(currentSectionKey);
-
-  if (showWrongOnly) {
-    applyWrongOnlyFilter();
-  }
 }
 
 function restoreEvaluatedQuestion(qIndex, evalData) {
@@ -762,7 +840,6 @@ function restoreEvaluatedQuestion(qIndex, evalData) {
     feedback.innerText = evalData.msg;
   }
 
-  // Se muestra la explicación SOLO si la respuesta restaurada FUE INCORRECTA
   const expBox = document.getElementById(`explanation-${qIndex}`);
   if (expBox) {
     expBox.style.display = evalData.isCorrect ? "none" : "block";

@@ -26,18 +26,33 @@
       <div class="block-header">
         <h2 id="block-title">Sección</h2>
         <div class="block-header-actions">
+          <!-- TOGGLE: PAGINACIÓN -->
+          <label class="toggle-switch-container">
+            <input type="checkbox" id="toggle-paginate-checkbox" checked onchange="togglePagination()">
+            <span class="toggle-slider"></span>
+            <span class="toggle-label">Paginar (30)</span>
+          </label>
+
+          <!-- TOGGLE: SOLO INCORRECTAS -->
           <label class="toggle-switch-container">
             <input type="checkbox" id="toggle-wrong-checkbox" onchange="toggleShowWrongOnly()">
             <span class="toggle-slider"></span>
             <span class="toggle-label">Solo Incorrectas</span>
           </label>
+
           <button class="btn btn-check" style="margin-top:0;" onclick="revealAllAnswers()">👁️ Mostrar Respuestas</button>
           <button class="btn btn-shuffle" onclick="shuffleCurrentBlock()">🔀 Mezclar Preguntas</button>
           <button class="btn btn-secondary" onclick="returnToMenu()">← Volver al Menú</button>
         </div>
       </div>
+
+      <!-- CONTROLES DE PAGINACIÓN SUPERIOR -->
+      <div class="pagination-controls" id="pagination-top" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; padding: 10px 0; border-bottom: 1px solid var(--border);"></div>
       
       <div id="questions-list-container"></div>
+
+      <!-- CONTROLES DE PAGINACIÓN INFERIOR -->
+      <div class="pagination-controls" id="pagination-bottom" style="display: flex; justify-content: space-between; align-items: center; margin-top: 20px; padding-top: 20px; border-top: 1px solid var(--border);"></div>
     </div>
 
     <!-- PANTALLA 3: RESULTADOS DE EXAMEN -->
