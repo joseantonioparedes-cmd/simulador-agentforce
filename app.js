@@ -25,30 +25,37 @@ function getActiveRawQuestions(lang = currentLang) {
 
 function groupQuestionsByCategory() {
   questionsBySection = {};
+  
+  // 1. Siempre usamos el banco en inglés como la fuente principal de verdad
+  const rawEngPool = typeof QUESTIONS_ENG !== "undefined" ? QUESTIONS_ENG : (typeof QUESTIONS !== "undefined" ? QUESTIONS : []);
   const sourceQuestions = getActiveRawQuestions();
 
-  if (Array.isArray(sourceQuestions)) {
-    sourceQuestions.forEach(q => {
-      const cat = q.category || "General";
+  if (Array.isArray(rawEngPool)) {
+    rawEngPool.forEach(qEng => {
+      const cat = qEng.category || "General";
       if (!questionsBySection[cat]) {
         questionsBySection[cat] = [];
       }
-      
+
+      // 2. Determinar los índices correctos estrictamente desde la pregunta en INGLÉS
       const correctIndices = [];
-      q.choices.forEach((choice, idx) => {
-        if (choice === q.correctAnswerText) {
+      qEng.choices.forEach((choice, idx) => {
+        if (cleanOptionText(choice) === cleanOptionText(qEng.correctAnswerText)) {
           correctIndices.push(idx);
         }
       });
 
+      // 3. Buscar la versión actual según el idioma seleccionado (ENG, ESP o MIRROR)
+      const currentRaw = (Array.isArray(sourceQuestions) ? sourceQuestions.find(q => q.id === qEng.id) : null) || qEng;
+
       questionsBySection[cat].push({
-        id: q.id,
-        question: q.question,
-        options: q.choices.map(opt => cleanOptionText(opt)),
-        originalOptionsENG: getOriginalEnglishChoices(q.id),
-        answer: correctIndices,
+        id: qEng.id,
+        question: currentRaw.question,
+        options: currentRaw.choices.map(opt => cleanOptionText(opt)),
+        originalOptionsENG: qEng.choices.map(opt => cleanOptionText(opt)),
+        answer: correctIndices, // <--- La respuesta correcta SIEMPRE la dicta el banco en Inglés
         multiple: correctIndices.length > 1,
-        explanation: q.explanation || "Sin explicación disponible."
+        explanation: currentRaw.explanation || qEng.explanation || "Sin explicación disponible."
       });
     });
   }
@@ -93,10 +100,8 @@ function initContextMenu() {
 
 function updateLangMenuCheck() {
   const checkENG = document.getElementById("lang-check-ENG");
-  const checkESP = document.getElementById("lang-check-ESP");
   const checkMIRROR = document.getElementById("lang-check-MIRROR");
   if (checkENG) checkENG.style.display = currentLang === "ENG" ? "inline" : "none";
-  if (checkESP) checkESP.style.display = currentLang === "ESP" ? "inline" : "none";
   if (checkMIRROR) checkMIRROR.style.display = currentLang === "MIRROR" ? "inline" : "none";
 }
 
@@ -126,15 +131,15 @@ function syncCurrentQuestionsLanguage() {
   const rawEngPool = typeof QUESTIONS_ENG !== "undefined" ? QUESTIONS_ENG : QUESTIONS;
 
   currentQuestionsList = currentQuestionsList.map((currentQ, qIndex) => {
-    const updatedRaw = activeQuestionsPool.find(q => q.id === currentQ.id);
     const engRaw = rawEngPool.find(q => q.id === currentQ.id);
+    const updatedRaw = activeQuestionsPool.find(q => q.id === currentQ.id) || engRaw;
 
     const feedback = document.getElementById(`feedback-${qIndex}`);
     const isEvaluated = feedback && feedback.style.display === "block";
     const isCorrectFeedback = feedback && feedback.classList.contains("correct");
     const isRevealedAll = isEvaluated && (feedback.innerText.includes("Modo") || feedback.innerText.includes("Mode"));
 
-    if (updatedRaw && engRaw) {
+    if (engRaw) {
       const cleanEngChoices = engRaw.choices.map(opt => cleanOptionText(opt));
       const cleanTargetChoices = updatedRaw.choices.map(opt => cleanOptionText(opt));
 
@@ -150,7 +155,7 @@ function syncCurrentQuestionsLanguage() {
         ...currentQ,
         question: updatedRaw.question,
         options: translatedOptions,
-        explanation: updatedRaw.explanation || "Sin explicación disponible.",
+        explanation: updatedRaw.explanation || engRaw.explanation || "Sin explicación disponible.",
         isEvaluatedState: isEvaluated,
         isCorrectState: isCorrectFeedback,
         isRevealedAllState: isRevealedAll
@@ -683,7 +688,7 @@ function checkSingleAnswer(qIndex) {
   const qCard = document.getElementById(`q-card-${qIndex}`);
   const optionBtns = qCard.querySelectorAll(".option");
 
-  // Aplica las clases de éxito o error a los botones de AMBAS columnas al mismo tiempo
+  // Aplica las clases de éxito o error a los botones de las opciones
   optionBtns.forEach((btn) => {
     btn.style.pointerEvents = "none";
     const idx = parseInt(btn.getAttribute("data-opt-index"));
@@ -699,20 +704,25 @@ function checkSingleAnswer(qIndex) {
   const feedback = document.getElementById(`feedback-${qIndex}`);
   feedback.style.display = "block";
 
+  const expBox = document.getElementById(`explanation-${qIndex}`);
+
   if (isCorrect) {
     feedback.className = "feedback-box correct";
     feedback.innerText = (currentLang === "ESP") ? "¡Correcto!" : "Correct!";
     sectionStats[currentSectionKey].correct++;
+    
+    // Oculta la explicación si la respuesta es correcta
+    if (expBox) expBox.style.display = "none";
   } else {
     feedback.className = "feedback-box incorrect";
     feedback.innerText = (currentLang === "ESP") 
       ? "Incorrecto. Revisa la respuesta marcada en verde." 
       : "Incorrect. Check the response marked in green.";
     sectionStats[currentSectionKey].incorrect++;
+    
+    // Muestra la explicación únicamente si la respuesta es incorrecta
+    if (expBox) expBox.style.display = "block";
   }
-
-  const expBox = document.getElementById(`explanation-${qIndex}`);
-  if (expBox) expBox.style.display = "block";
 
   saveStatsToStorage();
   document.getElementById(`btn-check-${qIndex}`).style.display = "none";
@@ -752,8 +762,11 @@ function restoreEvaluatedQuestion(qIndex, evalData) {
     feedback.innerText = evalData.msg;
   }
 
+  // Se muestra la explicación SOLO si la respuesta restaurada FUE INCORRECTA
   const expBox = document.getElementById(`explanation-${qIndex}`);
-  if (expBox) expBox.style.display = "block";
+  if (expBox) {
+    expBox.style.display = evalData.isCorrect ? "none" : "block";
+  }
 
   const btnCheck = document.getElementById(`btn-check-${qIndex}`);
   if (btnCheck) btnCheck.style.display = "none";
