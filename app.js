@@ -5,33 +5,64 @@ let sectionStats = {};
 let isExamMode = false;
 let showWrongOnly = false; 
 
-// Control de Paginación
-let isPaginated = true;
+// Control de Paginación (Desactivada por defecto)
+let isPaginated = false;
 let currentPage = 1;
-const pageSize = 30; // Tamaño de página deseado
+const pageSize = 30;
 
-// Idioma actual: 'ENG', 'ESP' o 'MIRROR'
+// Idioma actual: 'ENG' o 'MIRROR' (Se elimina 'ESP' como modo individual)
 let currentLang = localStorage.getItem("sf_agentforce_lang") || "ENG";
+if (currentLang === "ESP") {
+  currentLang = "ENG";
+  localStorage.setItem("sf_agentforce_lang", "ENG");
+}
 
 let questionsBySection = {};
 
-function getActiveRawQuestions(lang = currentLang) {
-  if (lang === "ESP" && typeof QUESTIONS_ESP !== "undefined") {
-    return QUESTIONS_ESP;
-  }
-  if (typeof QUESTIONS_ENG !== "undefined") {
-    return QUESTIONS_ENG;
-  }
-  if (typeof QUESTIONS !== "undefined") {
-    return QUESTIONS;
-  }
-  return [];
+// Convertir letras ('A', 'B', etc.) a índices numéricos basados ÚNICAMENTE en QUESTIONS_ENG
+function convertLetterAnswersToIndices(answerArray, optionsArray) {
+  if (!Array.isArray(answerArray)) return [];
+  const letterMap = { 'A': 0, 'B': 1, 'C': 2, 'D': 3, 'E': 4, 'F': 5 };
+  
+  return answerArray.map(ans => {
+    if (typeof ans === 'number' && ans >= 0) return ans;
+    if (typeof ans === 'string') {
+      const cleanAns = ans.trim().toUpperCase();
+      if (Array.isArray(optionsArray) && optionsArray.length > 0) {
+        const foundIdx = optionsArray.findIndex(opt => {
+          if (typeof opt === 'object' && opt !== null && opt.letter) {
+            return opt.letter.trim().toUpperCase() === cleanAns;
+          }
+          return false;
+        });
+        if (foundIdx !== -1) return foundIdx;
+      }
+      if (letterMap[cleanAns] !== undefined) {
+        return letterMap[cleanAns];
+      }
+    }
+    return -1;
+  }).filter(idx => idx >= 0);
 }
 
+// Extrae textos planos limpiando etiquetas iniciales A), B), etc.
+function extractOptionTexts(optionsArray) {
+  if (!Array.isArray(optionsArray)) return [];
+  return optionsArray.map(opt => {
+    if (typeof opt === 'string') return cleanOptionText(opt);
+    if (opt && typeof opt === 'object' && opt.text) return cleanOptionText(opt.text);
+    return "";
+  });
+}
+
+function cleanOptionText(text) {
+  return text ? String(text).replace(/^[A-F][\)\.\:\-]\s*/i, "").trim() : "";
+}
+
+// Cargar banco de preguntas tomando el 100% de los datos desde QUESTIONS_ENG
 function groupQuestionsByCategory() {
   questionsBySection = {};
   const rawEngPool = typeof QUESTIONS_ENG !== "undefined" ? QUESTIONS_ENG : (typeof QUESTIONS !== "undefined" ? QUESTIONS : []);
-  const sourceQuestions = getActiveRawQuestions();
 
   if (Array.isArray(rawEngPool)) {
     rawEngPool.forEach(qEng => {
@@ -40,24 +71,17 @@ function groupQuestionsByCategory() {
         questionsBySection[cat] = [];
       }
 
-      // Determinar respuesta correcta usando SIEMPRE el banco en inglés
-      const correctIndices = [];
-      qEng.choices.forEach((choice, idx) => {
-        if (cleanOptionText(choice) === cleanOptionText(qEng.correctAnswerText)) {
-          correctIndices.push(idx);
-        }
-      });
-
-      const currentRaw = (Array.isArray(sourceQuestions) ? sourceQuestions.find(q => q.id === qEng.id) : null) || qEng;
+      const engOptionsTexts = extractOptionTexts(qEng.options || qEng.choices);
+      const correctIndices = convertLetterAnswersToIndices(qEng.answer, qEng.options || qEng.choices);
 
       questionsBySection[cat].push({
         id: qEng.id,
-        question: currentRaw.question,
-        options: currentRaw.choices.map(opt => cleanOptionText(opt)),
-        originalOptionsENG: qEng.choices.map(opt => cleanOptionText(opt)),
-        answer: correctIndices,
-        multiple: correctIndices.length > 1,
-        explanation: currentRaw.explanation || qEng.explanation || "Sin explicación disponible."
+        question: qEng.text || qEng.question,
+        options: engOptionsTexts,
+        originalOptionsENG: engOptionsTexts, // Base inmutable en inglés
+        answer: correctIndices,             // Índices dictados únicamente por inglés
+        multiple: qEng.multi !== undefined ? qEng.multi : correctIndices.length > 1,
+        explanation: qEng.explanation || "Sin explicación disponible."
       });
     });
   }
@@ -66,8 +90,8 @@ function groupQuestionsByCategory() {
 function getOriginalEnglishChoices(qId) {
   const rawEngPool = typeof QUESTIONS_ENG !== "undefined" ? QUESTIONS_ENG : QUESTIONS;
   const match = rawEngPool.find(item => item.id === qId);
-  if (match && match.choices) {
-    return match.choices.map(opt => cleanOptionText(opt));
+  if (match) {
+    return extractOptionTexts(match.options || match.choices);
   }
   return [];
 }
@@ -88,13 +112,15 @@ function initContextMenu() {
     const x = e.clientX;
     const y = e.clientY;
 
-    contextMenu.style.top = `${y + window.scrollY}px`;
-    contextMenu.style.left = `${x + window.scrollX}px`;
-    contextMenu.style.display = "block";
+    if (contextMenu) {
+      contextMenu.style.top = `${y + window.scrollY}px`;
+      contextMenu.style.left = `${x + window.scrollX}px`;
+      contextMenu.style.display = "block";
+    }
   });
 
   document.addEventListener("click", (e) => {
-    if (!contextMenu.contains(e.target)) {
+    if (contextMenu && !contextMenu.contains(e.target)) {
       contextMenu.style.display = "none";
     }
   });
@@ -102,74 +128,28 @@ function initContextMenu() {
 
 function updateLangMenuCheck() {
   const checkENG = document.getElementById("lang-check-ENG");
-  const checkESP = document.getElementById("lang-check-ESP");
   const checkMIRROR = document.getElementById("lang-check-MIRROR");
   if (checkENG) checkENG.style.display = currentLang === "ENG" ? "inline" : "none";
-  if (checkESP) checkESP.style.display = currentLang === "ESP" ? "inline" : "none";
   if (checkMIRROR) checkMIRROR.style.display = currentLang === "MIRROR" ? "inline" : "none";
 }
 
 function changeLanguage(lang) {
   if (currentLang === lang) {
-    document.getElementById("context-menu").style.display = "none";
+    const cm = document.getElementById("context-menu");
+    if (cm) cm.style.display = "none";
     return;
   }
 
   currentLang = lang;
   localStorage.setItem("sf_agentforce_lang", lang);
   updateLangMenuCheck();
-  document.getElementById("context-menu").style.display = "none";
-
-  groupQuestionsByCategory();
+  const cm = document.getElementById("context-menu");
+  if (cm) cm.style.display = "none";
 
   if (currentSectionKey && document.getElementById("quiz-screen").style.display === "block") {
-    syncCurrentQuestionsLanguage();
     renderQuestionsList();
   } else if (document.getElementById("menu-screen").style.display !== "none") {
     renderBlockCards();
-  }
-}
-
-function syncCurrentQuestionsLanguage() {
-  const activeQuestionsPool = getActiveRawQuestions(currentLang === "MIRROR" ? "ENG" : currentLang);
-  const rawEngPool = typeof QUESTIONS_ENG !== "undefined" ? QUESTIONS_ENG : QUESTIONS;
-
-  currentQuestionsList = currentQuestionsList.map((currentQ, qIndex) => {
-    const engRaw = rawEngPool.find(q => q.id === currentQ.id);
-    const updatedRaw = activeQuestionsPool.find(q => q.id === currentQ.id) || engRaw;
-
-    const feedback = document.getElementById(`feedback-${qIndex}`);
-    const isEvaluated = feedback && feedback.style.display === "block";
-    const isCorrectFeedback = feedback && feedback.classList.contains("correct");
-    const isRevealedAll = isEvaluated && (feedback.innerText.includes("Modo") || feedback.innerText.includes("Mode"));
-
-    if (engRaw) {
-      const cleanEngChoices = engRaw.choices.map(opt => cleanOptionText(opt));
-      const cleanTargetChoices = updatedRaw.choices.map(opt => cleanOptionText(opt));
-
-      const translatedOptions = currentQ.originalOptionsOrderENG.map(engOptionText => {
-        const engIndex = cleanEngChoices.indexOf(engOptionText);
-        if (engIndex !== -1 && cleanTargetChoices[engIndex]) {
-          return cleanTargetChoices[engIndex];
-        }
-        return engOptionText;
-      });
-
-      return {
-        ...currentQ,
-        question: updatedRaw.question,
-        options: translatedOptions,
-        explanation: updatedRaw.explanation || engRaw.explanation || "Sin explicación disponible.",
-        isEvaluatedState: isEvaluated,
-        isCorrectState: isCorrectFeedback,
-        isRevealedAllState: isRevealedAll
-      };
-    }
-    return currentQ;
-  });
-
-  if (currentSectionKey) {
-    document.getElementById("block-title").innerText = `${currentSectionKey} (${currentQuestionsList.length} preguntas)`;
   }
 }
 
@@ -182,37 +162,49 @@ function shuffleArray(array) {
   return arr;
 }
 
-function cleanOptionText(text) {
-  return text ? text.replace(/^[A-F][\)\.\:\-]\s*/i, "").trim() : "";
-}
-
+// Mezcla las opciones y vincula la traducción de español estricta antes de rotar
 function shuffleQuestionOptions(question) {
+  // 1. Obtener las opciones originales en inglés
   const engChoices = getOriginalEnglishChoices(question.id);
+  
+  // 2. Obtener las opciones en español originales
+  const rawEspPool = typeof QUESTIONS_ESP !== "undefined" ? QUESTIONS_ESP : [];
+  const espMatch = rawEspPool.find(q => q.id === question.id);
+  const espChoices = espMatch ? extractOptionTexts(espMatch.options || espMatch.choices) : [];
 
-  const mappedOptions = question.options.map((optText, index) => {
+  // 3. Obtener los índices correctos ORIGINALES directamente desde QUESTIONS_ENG
+  const rawEngPool = typeof QUESTIONS_ENG !== "undefined" ? QUESTIONS_ENG : (typeof QUESTIONS !== "undefined" ? QUESTIONS : []);
+  const rawEngQuestion = rawEngPool.find(item => item.id === question.id);
+  const originalCorrectIndices = rawEngQuestion 
+    ? convertLetterAnswersToIndices(rawEngQuestion.answer, rawEngQuestion.options || rawEngQuestion.choices)
+    : [];
+
+  // 4. Mapear las opciones evaluando la corrección contra la fuente ORIGINAL inmutable
+  const mappedOptions = engChoices.map((engText, index) => {
+    const cleanEng = cleanOptionText(engText);
+    const espText = (espChoices[index]) ? cleanOptionText(espChoices[index]) : cleanEng;
+
     return {
-      text: cleanOptionText(optText),
-      engText: engChoices[index] || cleanOptionText(optText),
-      isCorrect: question.answer.includes(index)
+      text: cleanEng,
+      engText: cleanEng,
+      espText: espText,
+      isCorrect: originalCorrectIndices.includes(index) // Valida contra el origen real
     };
   });
 
+  // 5. Mezclar las opciones
   const shuffledMapped = shuffleArray(mappedOptions);
-  
-  const newOptions = shuffledMapped.map(item => item.text);
-  const newEngOrder = shuffledMapped.map(item => item.engText);
-  const newAnswers = [];
-  
-  shuffledMapped.forEach((item, newIndex) => {
-    if (item.isCorrect) {
-      newAnswers.push(newIndex);
-    }
-  });
+
+  // 6. Recalcular los nuevos índices correctos según las nuevas posiciones
+  const newAnswers = shuffledMapped
+    .map((item, newIdx) => (item.isCorrect ? newIdx : -1))
+    .filter(idx => idx !== -1);
 
   return {
     ...question,
-    options: newOptions,
-    originalOptionsOrderENG: newEngOrder,
+    options: shuffledMapped.map(item => item.engText),
+    originalOptionsOrderENG: shuffledMapped.map(item => item.engText),
+    originalOptionsOrderESP: shuffledMapped.map(item => item.espText),
     answer: newAnswers,
     isEvaluatedState: false
   };
@@ -297,7 +289,7 @@ function resetSectionStats(sectionKey) {
 function openSection(sectionKey) {
   isExamMode = false;
   showWrongOnly = false;
-  isPaginated = true;
+  isPaginated = false;
   currentPage = 1;
   updateToggleBtnUI();
 
@@ -353,10 +345,72 @@ function openSection(sectionKey) {
   }
 }
 
-// CONTROLADOR DE ACTIVAR / DESACTIVAR PAGINACIÓN
+function openAllQuestionsStudyMode() {
+  isExamMode = false;
+  showWrongOnly = false;
+  isPaginated = false;
+  currentPage = 1;
+  updateToggleBtnUI();
+
+  currentSectionKey = "Banco Completo (Todas las Preguntas)";
+
+  let allQuestions = [];
+  Object.keys(questionsBySection).forEach(key => {
+    allQuestions = allQuestions.concat(questionsBySection[key]);
+  });
+
+  const savedSession = localStorage.getItem(`sf_session_${currentSectionKey}`);
+
+  if (!sectionStats[currentSectionKey]) {
+    sectionStats[currentSectionKey] = { correct: 0, incorrect: 0 };
+  }
+
+  if (sectionStats[currentSectionKey].correct === 0 && sectionStats[currentSectionKey].incorrect === 0 && !savedSession) {
+    const rawQuestions = JSON.parse(JSON.stringify(allQuestions));
+    currentQuestionsList = rawQuestions.map(q => {
+      const engChoices = getOriginalEnglishChoices(q.id);
+      return {
+        ...q,
+        options: q.options.map(opt => cleanOptionText(opt)),
+        originalOptionsOrderENG: engChoices
+      };
+    });
+    userAnswers = {};
+  } else if (savedSession) {
+    const sessionData = JSON.parse(savedSession);
+    currentQuestionsList = sessionData.questionsList;
+    userAnswers = sessionData.userAnswers || {};
+  } else {
+    const rawQuestions = JSON.parse(JSON.stringify(allQuestions));
+    currentQuestionsList = rawQuestions.map(q => {
+      const engChoices = getOriginalEnglishChoices(q.id);
+      return {
+        ...q,
+        options: q.options.map(opt => cleanOptionText(opt)),
+        originalOptionsOrderENG: engChoices
+      };
+    });
+    userAnswers = {};
+  }
+
+  document.getElementById("block-title").innerText = `${currentSectionKey} (${currentQuestionsList.length} preguntas)`;
+  showQuizScreen();
+  renderQuestionsList();
+
+  if (savedSession) {
+    const sessionData = JSON.parse(savedSession);
+    if (sessionData.evaluatedQuestions) {
+      Object.keys(sessionData.evaluatedQuestions).forEach(qIdxStr => {
+        const qIndex = parseInt(qIdxStr);
+        restoreEvaluatedQuestion(qIndex, sessionData.evaluatedQuestions[qIndex]);
+      });
+    }
+  }
+}
+
 function togglePagination() {
   const checkbox = document.getElementById("toggle-paginate-checkbox");
-  isPaginated = checkbox ? checkbox.checked : true;
+  isPaginated = checkbox ? checkbox.checked : false;
   currentPage = 1;
   renderQuestionsList();
 }
@@ -365,14 +419,7 @@ function toggleShowWrongOnly() {
   if (isExamMode) return;
 
   const checkbox = document.getElementById("toggle-wrong-checkbox");
-
-  let hasWrongQuestions = false;
-  currentQuestionsList.forEach((_, qIndex) => {
-    const feedback = document.getElementById(`feedback-${qIndex}`);
-    if (feedback && feedback.classList.contains("incorrect") && feedback.style.display === "block") {
-      hasWrongQuestions = true;
-    }
-  });
+  const hasWrongQuestions = currentQuestionsList.some(q => q.isEvaluatedState && !q.isCorrectState);
 
   if (checkbox && checkbox.checked && !hasWrongQuestions) {
     showModal("Aún no tienes preguntas evaluadas como incorrectas en este bloque.");
@@ -397,14 +444,11 @@ function updateToggleBtnUI() {
   }
 }
 
-// MEZCLAR: Si la paginación está ACTIVA, mezcla SOLO las preguntas de la página actual.
-// Si la paginación está DESACTIVADA, mezcla TODO el bloque.
 function shuffleCurrentBlock() {
   let filteredIndices = [];
-  currentQuestionsList.forEach((_, idx) => {
+  currentQuestionsList.forEach((q, idx) => {
     if (showWrongOnly) {
-      const feedbackPrev = document.getElementById(`feedback-${idx}`);
-      if (feedbackPrev && feedbackPrev.classList.contains("incorrect") && feedbackPrev.style.display === "block") {
+      if (q.isEvaluatedState && !q.isCorrectState) {
         filteredIndices.push(idx);
       }
     } else {
@@ -413,24 +457,18 @@ function shuffleCurrentBlock() {
   });
 
   if (isPaginated && !isExamMode) {
-    // Mezclar únicamente las preguntas que están visibles en la página actual
     const startIndex = (currentPage - 1) * pageSize;
     const endIndex = Math.min(startIndex + pageSize, filteredIndices.length);
     const currentPageIndices = filteredIndices.slice(startIndex, endIndex);
 
-    // Extraer los objetos de la página actual
     let pageItems = currentPageIndices.map(idx => currentQuestionsList[idx]);
-    
-    // Barajar su orden entre sí y mezclar sus opciones de respuesta
     let shuffledPageItems = shuffleArray(pageItems).map(q => shuffleQuestionOptions(q));
 
-    // Reemplazar las preguntas barajadas de nuevo en la lista principal
     currentPageIndices.forEach((originalIdx, i) => {
       currentQuestionsList[originalIdx] = shuffledPageItems[i];
-      delete userAnswers[originalIdx]; // Limpiar respuestas previas de los elementos mezclados
+      delete userAnswers[originalIdx];
     });
   } else {
-    // Mezclar todo el bloque completo
     let shuffledQuestions = shuffleArray(currentQuestionsList);
     currentQuestionsList = shuffledQuestions.map(q => shuffleQuestionOptions(q));
     userAnswers = {};
@@ -467,9 +505,7 @@ function revealAllAnswers() {
     if (feedback) {
       feedback.style.display = "block";
       feedback.className = "feedback-box correct";
-      feedback.innerText = (currentLang === "ESP") 
-        ? "Modo Estudio: Respuesta(s) correcta(s) resaltada(s)." 
-        : "Study Mode: Correct answer(s) highlighted.";
+      feedback.innerText = "Study Mode: Correct answer(s) highlighted.";
     }
 
     const expBox = document.getElementById(`explanation-${qIndex}`);
@@ -490,20 +526,19 @@ function returnToMenu() {
   document.getElementById("results-screen").style.display = "none";
 }
 
-// RENDERIZADO Y PAGINACIÓN
+// RENDERIZADO: Solo la columna de Inglés es interactiva; la de Español es un texto pasivo alineado
 function renderQuestionsList() {
   const container = document.getElementById("questions-list-container");
   container.innerHTML = "";
 
   const letterBadges = ["A", "B", "C", "D", "E", "F"];
-  const rawEngPool = typeof QUESTIONS_ENG !== "undefined" ? QUESTIONS_ENG : QUESTIONS;
-  const rawEspPool = typeof QUESTIONS_ESP !== "undefined" ? QUESTIONS_ESP : [];
+  const rawEngPool = (typeof QUESTIONS_ENG !== "undefined" && Array.isArray(QUESTIONS_ENG)) ? QUESTIONS_ENG : (typeof QUESTIONS !== "undefined" ? QUESTIONS : []);
+  const rawEspPool = (typeof QUESTIONS_ESP !== "undefined" && Array.isArray(QUESTIONS_ESP)) ? QUESTIONS_ESP : [];
 
   let filteredIndices = [];
-  currentQuestionsList.forEach((_, idx) => {
+  currentQuestionsList.forEach((q, idx) => {
     if (showWrongOnly) {
-      const feedbackPrev = document.getElementById(`feedback-${idx}`);
-      if (feedbackPrev && feedbackPrev.classList.contains("incorrect") && feedbackPrev.style.display === "block") {
+      if (q.isEvaluatedState && !q.isCorrectState) {
         filteredIndices.push(idx);
       }
     } else {
@@ -527,59 +562,72 @@ function renderQuestionsList() {
     const qCard = document.createElement("div");
     const cardClass = q.multiple ? "question-item multiple-choice" : "question-item single-choice";
     
-    let badgeText = (currentLang === "ESP") 
-      ? (q.multiple ? "Opción Múltiple" : "Selección Única") 
-      : (q.multiple ? "Multiple Choice" : "Single Choice");
+    let badgeText = q.multiple ? "Multiple Choice" : "Single Choice";
 
     qCard.className = cardClass;
     qCard.id = `q-card-${qIndex}`;
 
     const selectedOptions = userAnswers[qIndex] || [];
-    const checkBtnLabel = (currentLang === "ESP") ? "Comprobar Respuesta" : "Check Answer";
-    const expLabel = (currentLang === "ESP") ? "💡 Explicación:" : "💡 Explanation:";
+    const checkBtnLabel = "Check Answer";
+    const expLabel = "💡 Explanation:";
 
     if (currentLang === "MIRROR") {
       const engMatch = rawEngPool.find(item => item.id === q.id);
       const espMatch = rawEspPool.find(item => item.id === q.id);
 
-      const cleanEngChoices = engMatch ? engMatch.choices.map(opt => cleanOptionText(opt)) : [];
-      const cleanEspChoices = espMatch ? espMatch.choices.map(opt => cleanOptionText(opt)) : [];
+      const cleanEngChoices = engMatch ? extractOptionTexts(engMatch.options || engMatch.choices) : [];
+      const cleanEspChoices = espMatch ? extractOptionTexts(espMatch.options || espMatch.choices) : [];
 
       let optionsEngHTML = "";
       let optionsEspHTML = "";
 
-      q.options.forEach((_, optIndex) => {
+      q.options.forEach((optText, optIndex) => {
         const dynamicLetter = letterBadges[optIndex] || "";
         const isSelected = selectedOptions.includes(optIndex) ? "selected" : "";
+        const engOptText = q.originalOptionsOrderENG ? q.originalOptionsOrderENG[optIndex] : optText;
 
-        const engOptText = q.originalOptionsOrderENG ? q.originalOptionsOrderENG[optIndex] : "";
-        const engIdx = cleanEngChoices.indexOf(engOptText);
-        const espOptText = (engIdx !== -1 && cleanEspChoices[engIdx]) ? cleanEspChoices[engIdx] : engOptText;
+        // Traducción alineada exactamente con la opción de inglés
+        let espOptText = engOptText;
+        if (q.originalOptionsOrderESP && q.originalOptionsOrderESP[optIndex]) {
+          espOptText = q.originalOptionsOrderESP[optIndex];
+        } else {
+          const origIndex = cleanEngChoices.indexOf(engOptText);
+          if (origIndex !== -1 && cleanEspChoices[origIndex]) {
+            espOptText = cleanEspChoices[origIndex];
+          }
+        }
 
+        // 🇺🇸 INGLÉS: Únicos botones de selección
         optionsEngHTML += `
           <button class="option ${isSelected}" data-opt-index="${optIndex}" onclick="selectOption(${qIndex}, ${optIndex}, ${q.multiple}, ${q.answer.length})">
             <span><strong>${dynamicLetter})</strong> ${engOptText}</span>
           </button>
         `;
 
+        // 🇪🇸 ESPAÑOL: Tarjeta pasiva de sólo lectura (No es botón, no tiene evento onclick)
         optionsEspHTML += `
-          <button class="option ${isSelected}" data-opt-index="${optIndex}" onclick="selectOption(${qIndex}, ${optIndex}, ${q.multiple}, ${q.answer.length})">
+          <div class="mirror-option-card">
             <span><strong>${dynamicLetter})</strong> ${espOptText}</span>
-          </button>
+          </div>
         `;
       });
+
+      const engQuestionText = engMatch ? (engMatch.text || engMatch.question) : q.question;
+      const espQuestionText = espMatch ? (espMatch.text || espMatch.question) : "⚠️ [Traducción no disponible]";
+      const engExpText = engMatch ? engMatch.explanation : q.explanation;
+      const espExpText = espMatch ? espMatch.explanation : "Sin explicación disponible.";
 
       qCard.innerHTML = `
         <div class="question-type-badge">${badgeText}</div>
         <div class="mirror-split-container">
           <div class="mirror-col">
-            <div class="mirror-col-header">🇺🇸 English</div>
-            <div class="question-title">${qIndex + 1}. ${engMatch ? engMatch.question : q.question}</div>
+            <div class="mirror-col-header">🇺🇸 English (Selecciona aquí)</div>
+            <div class="question-title">${qIndex + 1}. ${engQuestionText}</div>
             <div class="options-grid">${optionsEngHTML}</div>
           </div>
           <div class="mirror-col">
-            <div class="mirror-col-header">🇪🇸 Español</div>
-            <div class="question-title">${qIndex + 1}. ${espMatch ? espMatch.question : q.question}</div>
+            <div class="mirror-col-header">🇪🇸 Español (Traducción de referencia)</div>
+            <div class="question-title">${qIndex + 1}. ${espQuestionText}</div>
             <div class="options-grid">${optionsEspHTML}</div>
           </div>
         </div>
@@ -587,8 +635,8 @@ function renderQuestionsList() {
         <div class="feedback-box" id="feedback-${qIndex}"></div>
         <div class="explanation-box" id="explanation-${qIndex}">
           <div class="mirror-split-container">
-            <div><strong>💡 Explanation (ENG):</strong><br>${engMatch ? engMatch.explanation : q.explanation}</div>
-            <div><strong>💡 Explicación (ESP):</strong><br>${espMatch ? espMatch.explanation : q.explanation}</div>
+            <div><strong>💡 Explanation (ENG):</strong><br>${engExpText}</div>
+            <div><strong>💡 Explicación (ESP):</strong><br>${espExpText}</div>
           </div>
         </div>
       `;
@@ -640,16 +688,14 @@ function renderQuestionsList() {
         if (feedback) {
           feedback.style.display = "block";
           feedback.className = "feedback-box correct";
-          feedback.innerText = (currentLang === "ESP") 
-            ? "Modo Estudio: Respuesta(s) correcta(s) resaltada(s)." 
-            : "Study Mode: Correct answer(s) highlighted.";
+          feedback.innerText = "Study Mode: Correct answer(s) highlighted.";
         }
         const expBox = document.getElementById(`explanation-${qIndex}`);
         if (expBox) expBox.style.display = "block";
       } else {
         const msg = q.isCorrectState
-          ? ((currentLang === "ESP") ? "¡Correcto!" : "Correct!")
-          : ((currentLang === "ESP") ? "Incorrecto. Revisa la respuesta marcada en verde." : "Incorrect. Check the response marked in green.");
+          ? "Correct!"
+          : "Incorrect. Check the response marked in green.";
         
         restoreEvaluatedQuestion(qIndex, {
           isCorrect: q.isCorrectState,
@@ -663,7 +709,7 @@ function renderQuestionsList() {
     const submitExamBtn = document.createElement("button");
     submitExamBtn.className = "btn btn-exam";
     submitExamBtn.style.marginTop = "20px";
-    submitExamBtn.innerText = (currentLang === "ESP") ? "Finalizar y Enviar Examen" : "Submit Exam";
+    submitExamBtn.innerText = "Submit Exam";
     submitExamBtn.onclick = showExamResults;
     container.appendChild(submitExamBtn);
   }
@@ -685,14 +731,12 @@ function renderPaginationControls(totalPages, totalItems) {
   const prevDisabled = currentPage === 1 ? "disabled style='opacity:0.5; cursor:not-allowed;'" : "";
   const nextDisabled = currentPage === totalPages ? "disabled style='opacity:0.5; cursor:not-allowed;'" : "";
 
-  const labelText = (currentLang === "ESP")
-    ? `Página ${currentPage} de ${totalPages} (${totalItems} preguntas)`
-    : `Page ${currentPage} of ${totalPages} (${totalItems} questions)`;
+  const labelText = `Page ${currentPage} of ${totalPages} (${totalItems} questions)`;
 
   const html = `
-    <button class="btn btn-secondary" ${prevDisabled} onclick="goToPage(${currentPage - 1})">← Anterior</button>
+    <button class="btn btn-secondary" ${prevDisabled} onclick="goToPage(${currentPage - 1})">← Previous</button>
     <span style="font-weight: 600; font-size: 0.95rem; color: var(--text-main);">${labelText}</span>
-    <button class="btn btn-secondary" ${nextDisabled} onclick="goToPage(${currentPage + 1})">Siguiente →</button>
+    <button class="btn btn-secondary" ${nextDisabled} onclick="goToPage(${currentPage + 1})">Next →</button>
   `;
 
   topControls.innerHTML = html;
@@ -716,9 +760,7 @@ function selectOption(qIndex, optIndex, isMultiple, maxAllowed) {
       currentSel = currentSel.filter(i => i !== optIndex);
     } else {
       if (currentSel.length >= maxAllowed) {
-        const msg = (currentLang === "ESP") 
-          ? `Esta pregunta solo requiere ${maxAllowed} respuestas.` 
-          : `This question only requires ${maxAllowed} answers.`;
+        const msg = `This question only requires ${maxAllowed} answers.`;
         showModal(msg);
         return;
       }
@@ -753,9 +795,7 @@ function checkSingleAnswer(qIndex) {
   const selected = userAnswers[qIndex] || [];
 
   if (selected.length === 0) {
-    const msg = (currentLang === "ESP") 
-      ? "Por favor selecciona al menos una respuesta." 
-      : "Please select at least one answer.";
+    const msg = "Please select at least one answer.";
     showModal(msg);
     return;
   }
@@ -792,14 +832,12 @@ function checkSingleAnswer(qIndex) {
 
     if (isCorrect) {
       feedback.className = "feedback-box correct";
-      feedback.innerText = (currentLang === "ESP") ? "¡Correcto!" : "Correct!";
+      feedback.innerText = "Correct!";
       sectionStats[currentSectionKey].correct++;
       if (expBox) expBox.style.display = "none";
     } else {
       feedback.className = "feedback-box incorrect";
-      feedback.innerText = (currentLang === "ESP") 
-        ? "Incorrecto. Revisa la respuesta marcada en verde." 
-        : "Incorrect. Check the response marked in green.";
+      feedback.innerText = "Incorrect. Check the response marked in green.";
       sectionStats[currentSectionKey].incorrect++;
       if (expBox) expBox.style.display = "block";
     }
@@ -864,9 +902,7 @@ function startExamMode() {
   currentQuestionsList = shuffledQuestions.map(q => shuffleQuestionOptions(q));
   userAnswers = {};
 
-  const titleText = (currentLang === "ESP") 
-    ? `Simulacro de Examen Completo (${currentQuestionsList.length} Preguntas)` 
-    : `Full Exam Simulator (${currentQuestionsList.length} Questions)`;
+  const titleText = `Full Exam Simulator (${currentQuestionsList.length} Questions)`;
 
   document.getElementById("block-title").innerText = titleText;
   showQuizScreen();
@@ -894,16 +930,16 @@ function showExamResults() {
     const item = document.createElement("div");
     item.className = `result-item ${isCorrect ? "is-correct" : "is-incorrect"}`;
 
-    const noAnsText = (currentLang === "ESP") ? "Sin respuesta" : "No answer";
+    const noAnsText = "No answer";
     const userAnsText = userSel.length > 0 
       ? userSel.map(i => `${letterBadges[i]}) ${cleanOptionText(q.options[i])}`).join(" | ") 
       : noAnsText;
       
     const correctAnsText = q.answer.map(i => `${letterBadges[i]}) ${cleanOptionText(q.options[i])}`).join(" | ");
 
-    const yourAnsLabel = (currentLang === "ESP") ? "Tu respuesta:" : "Your answer:";
-    const correctAnsLabel = (currentLang === "ESP") ? "Respuesta Correcta:" : "Correct Answer:";
-    const expLabel = (currentLang === "ESP") ? "💡 Explicación:" : "💡 Explanation:";
+    const yourAnsLabel = "Your answer:";
+    const correctAnsLabel = "Correct Answer:";
+    const expLabel = "💡 Explanation:";
 
     item.innerHTML = `
       <div style="font-weight: bold; margin-bottom: 8px;">${idx + 1}. ${q.question}</div>

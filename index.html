@@ -18,7 +18,16 @@
       <div class="block-grid" id="block-cards-container"></div>
       
       <hr style="margin: 25px 0; border: none; border-top: 1px solid var(--border);">
-      <button class="btn btn-exam" onclick="startExamMode()">📝 Simular Examen Completo</button>
+
+      <!-- ACCIONES GLOBALES (MODO ESTUDIO O MODO EXAMEN COMPLETO) -->
+      <div style="display: flex; gap: 12px; flex-wrap: wrap;">
+        <button class="btn btn-shuffle" style="flex: 1; padding: 16px; font-size: 1.05rem; border-radius: 10px;" onclick="openAllQuestionsStudyMode()">
+          📖 Estudiar Banco Completo
+        </button>
+        <button class="btn btn-exam" style="flex: 1; padding: 16px; font-size: 1.05rem; border-radius: 10px; margin-top: 0;" onclick="startExamMode()">
+          📝 Simular Examen Completo
+        </button>
+      </div>
     </div>
 
     <!-- PANTALLA 2: VISTA DE ESTUDIO -->
@@ -28,7 +37,7 @@
         <div class="block-header-actions">
           <!-- TOGGLE: PAGINACIÓN -->
           <label class="toggle-switch-container">
-            <input type="checkbox" id="toggle-paginate-checkbox" checked onchange="togglePagination()">
+            <input type="checkbox" id="toggle-paginate-checkbox" onchange="togglePagination()">
             <span class="toggle-slider"></span>
             <span class="toggle-label">Paginar (30)</span>
           </label>
@@ -40,7 +49,7 @@
             <span class="toggle-label">Solo Incorrectas</span>
           </label>
 
-          <button class="btn btn-check" style="margin-top:0;" onclick="revealAllAnswers()">👁️ Mostrar Respuestas</button>
+          <button class="btn btn-check" style="margin-top:0;" onclick="revealAllAnswers()">👁️️ Mostrar Respuestas</button>
           <button class="btn btn-shuffle" onclick="shuffleCurrentBlock()">🔀 Mezclar Preguntas</button>
           <button class="btn btn-secondary" onclick="returnToMenu()">← Volver al Menú</button>
         </div>

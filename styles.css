@@ -90,7 +90,6 @@ body {
   color: var(--text-main);
 }
 
-/* Corrección de alineación del texto e iconos */
 .block-stats {
   font-size: 0.88rem;
   color: var(--text-muted);
@@ -200,6 +199,22 @@ body {
 .option.correct-target { border-color: var(--success) !important; background: var(--success-bg) !important; color: var(--success) !important; font-weight: 600; }
 .option.wrong-target { border-color: var(--error) !important; background: var(--error-bg) !important; color: var(--error) !important; }
 
+/* Estilo para las tarjetas de solo lectura en Español del modo Mirror */
+.mirror-option-card {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 14px 16px;
+  text-align: left;
+  font-size: 0.95rem;
+  line-height: 1.5;
+  background: #f8fafc;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  color: #475569;
+  user-select: none;
+}
+
 .feedback-box { padding: 14px 16px; border-radius: 8px; margin-top: 14px; font-weight: 600; display: none; font-size: 0.92rem; }
 .feedback-box.correct { background: var(--success-bg); color: var(--success); border: 1px solid var(--success-border); }
 .feedback-box.incorrect { background: var(--error-bg); color: var(--error); border: 1px solid var(--error-border); }
@@ -262,7 +277,7 @@ body {
 }
 
 .toggle-switch-container input {
-  display: none; /* Oculta el checkbox nativo */
+  display: none;
 }
 
 .toggle-slider {
@@ -287,9 +302,8 @@ body {
   transition: transform 0.25s ease;
 }
 
-/* Estado Activo (Checked) */
 .toggle-switch-container input:checked + .toggle-slider {
-  background-color: var(--error); /* Rojo cuando está filtrando incorrectas */
+  background-color: var(--error);
 }
 
 .toggle-switch-container input:checked + .toggle-slider::before {
@@ -307,7 +321,7 @@ body {
   font-size: 0.9rem;
   line-height: 1.5;
   color: #14532d;
-  display: none; /* Se activa dinámicamente con JS */
+  display: none;
 }
 
 .explanation-title {
@@ -365,45 +379,15 @@ body {
   display: none;
 }
 
-/* Estilos para el modo Mirror (Dual) */
-.mirror-box {
-  margin-top: 12px;
-  padding: 12px 16px;
-  background-color: #f8fafc;
-  border: 1.5px dashed #0176d3;
-  border-radius: 8px;
-  font-size: 0.93rem;
-  color: #1e293b;
-  line-height: 1.5;
-}
-
-.mirror-title {
-  font-size: 0.8rem;
-  font-weight: 700;
-  color: #0176d3;
-  text-transform: uppercase;
-  margin-bottom: 6px;
-  display: flex;
-  align-items: center;
-  gap: 4px;
-}
-
-.mirror-option {
-  margin-top: 4px;
-  font-size: 0.88rem;
-  color: #475569;
-}
-
 /* VISTA ESPEJO LADO A LADO (SPLIT VIEW) */
 .mirror-split-container {
   display: grid;
-  grid-template-columns: 1fr 1fr; /* Dos columnas iguales */
+  grid-template-columns: 1fr 1fr;
   gap: 20px;
   position: relative;
   margin-bottom: 12px;
 }
 
-/* Línea divisoria vertical */
 .mirror-split-container::before {
   content: "";
   position: absolute;
@@ -431,7 +415,6 @@ body {
   border-bottom: 2px solid var(--border);
 }
 
-/* En dispositivos móviles, pasa automáticamente a una columna */
 @media (max-width: 768px) {
   .mirror-split-container {
     grid-template-columns: 1fr;
