@@ -1310,7 +1310,7 @@ const QUESTIONS_ESP = [
    }
   ],
   "answer": [
-   "A"
+   "C"
   ],
   "multi": false,
   "explanation": "La respuesta correcta es A porque los metadatos de acciones en Agentforce deben utilizar tipos de datos Lightning soportados al definir entradas y salidas. Una colección de valores de texto debe exponerse mediante un tipo Lightning soportado como 'lightning__stringType'."

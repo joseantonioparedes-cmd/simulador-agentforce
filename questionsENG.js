@@ -1425,7 +1425,7 @@ const QUESTIONS_ENG = [
    }
   ],
   "answer": [
-   "A"
+   "C"
   ],
   "multi": false,
   "explanation": "The correct answer is A because Agentforce action metadata must use supported Lightning data types when defining action inputs and outputs. A collection of text values must be exposed to the reasoning engine through a Salesforce-supported Lightning type, not through an Apex implementation name. lightning__stringType correctly maps string-based action input so Agentforce can validate, structure, and pass values into the Apex action. apex__String is not the correct metadata type because it describes an Apex language type, not the Agentforce action schema type. lightning__textType is a UI-oriented text type and is not the correct mapping for this collection-style string action input. Salesforce’s Agentforce developer guidance confirms that Apex strings are mapped to standard Lightning types for action configuration.",
