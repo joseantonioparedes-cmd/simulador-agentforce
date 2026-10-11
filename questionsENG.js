@@ -209,7 +209,7 @@ const QUESTIONS_ENG = [
   "sourceRef": "download.pdf Q9 (p4)"
  },
  {
-  "id": 10,
+  "id": 9,
   "category": "Agentforce Concepts",
   "text": "An Agentforce Specialist is building a multi-step onboarding workflow using agent actions. The workflow includes four sequential steps: account creation, profile setup, settings configuration, and finalization. After the create_account action executes successfully, the system must immediately send a verification email without requiring an additional user interaction. Which approach should the specialist use to ensure the verification email is automatically triggered after account creation?",
   "options": [
@@ -237,7 +237,7 @@ const QUESTIONS_ENG = [
   "reviewNote": "Key taken from download.pdf; the previous bank (Q282) keyed a different answer — see the note in the explanation."
  },
  {
-  "id": 11,
+  "id": 10,
   "category": "Agentforce Concepts",
   "text": "An Agentforce Specialist is creating a custom action in Agentforce. Which option is available for the Agentforce Specialist to choose for the custom agent action?",
   "options": [
@@ -263,7 +263,7 @@ const QUESTIONS_ENG = [
   "prevId": 365
  },
  {
-  "id": 12,
+  "id": 11,
   "category": "Agentforce Concepts",
   "text": "Pinnacle Healthcare is enhancing its agent and Agent Script implementation to improve patient scheduling and care coordination. The head of compliance has identified a need to ensure deterministic behavior for agents when verifying patient information before scheduling appointments. The process must enforce compliance by gating downstream actions (for example, scheduling) until patient verification is complete. What is the most appropriate approach the Agentforce Specialist should recommend while adhering to standard configuration guidelines?",
   "options": [
@@ -289,7 +289,7 @@ const QUESTIONS_ENG = [
   "prevId": 120
  },
  {
-  "id": 13,
+  "id": 12,
   "category": "Trust Layer & Security",
   "text": "Which useful metrics does Agentforce Observability provide to a customer service team related to a Customer Service Agent?",
   "options": [
@@ -315,7 +315,7 @@ const QUESTIONS_ENG = [
   "prevId": 127
  },
  {
-  "id": 14,
+  "id": 13,
   "category": "Prompt Engineering",
   "text": "Cloud Kicks (CK) is developing a prompt template in a sandbox and has created multiple saved versions during testing. CK is now preparing to move the template to production. What is a consideration when deploying the template to production?",
   "options": [
@@ -341,7 +341,7 @@ const QUESTIONS_ENG = [
   "prevId": 52
  },
  {
-  "id": 15,
+  "id": 14,
   "category": "Agentforce Concepts",
   "text": "Universal Containers wants to assign agents to improve department efficiency. Which configuration ensures the right tasks are handled by the right agents?",
   "options": [
@@ -367,7 +367,7 @@ const QUESTIONS_ENG = [
   "prevId": 63
  },
  {
-  "id": 16,
+  "id": 15,
   "category": "Trust Layer & Security",
   "text": "Universal Containers' Service Agent executes a flow action to retrieve Opportunity records, The Opportunity object has an organization-wide default (OWD) of Private. The agent returns no results despite matching records existing and the flow logic being correctly configured. Which resolution strictly adheres to the principle of least privilege?",
   "options": [
@@ -392,7 +392,7 @@ const QUESTIONS_ENG = [
   "sourceRef": "download.pdf Q17 (p7)"
  },
  {
-  "id": 17,
+  "id": 16,
   "category": "Prompt Engineering",
   "text": "Universal Containers (UC) is using related list merge fields in a prompt template associated with an Account object in Prompt Builder. What should UC consider?",
   "options": [
@@ -418,7 +418,7 @@ const QUESTIONS_ENG = [
   "prevId": 133
  },
  {
-  "id": 18,
+  "id": 17,
   "category": "Trust Layer & Security",
   "text": "Which part of the Einstein Trust Layer architecture leverages an organization's own data within a large language model (LLM) prompt to confidently return relevant and accurate responses?",
   "options": [
@@ -444,7 +444,7 @@ const QUESTIONS_ENG = [
   "prevId": 235
  },
  {
-  "id": 19,
+  "id": 18,
   "category": "Agentforce Concepts",
   "text": "Universal Containers has configured an agent to handle customer return requests. When a customer initiates a return, the agent must calculate a specific restocking fee. The agent needs to quote this exact fee to the customer and then reuse that same fee amount when summarizing the final refund. The Agentforce Specialist needs to ensure the agent uses deterministic logic to calculate the fee and consistently reuses the exact same value without guessing or hallucinating. How should the specialist configure the agent to achieve this behavior?",
   "options": [
@@ -470,7 +470,7 @@ const QUESTIONS_ENG = [
   "prevId": 3
  },
  {
-  "id": 21,
+  "id": 19,
   "category": "Agentforce & Data",
   "text": "When configuring a file upload-based data library, what are the maximum allowed file sizes for text/HTML files and PDF files, respectively?",
   "options": [
@@ -496,7 +496,7 @@ const QUESTIONS_ENG = [
   "prevId": 214
  },
  {
-  "id": 22,
+  "id": 20,
   "category": "Setup & Integration",
   "text": "Cloud Kicks (CK) recently finished the development of a new prompt template that uses its own large language model (LLM). When trying to deploy the change set, CK is getting an error related to the LLM used in the prompt template. What should the Agentforce Specialist consider?",
   "options": [
@@ -524,7 +524,7 @@ const QUESTIONS_ENG = [
   "reviewNote": "Key taken from download.pdf; the previous bank (Q57) keyed a different answer — see the note in the explanation."
  },
  {
-  "id": 23,
+  "id": 21,
   "category": "Agentforce Concepts",
   "text": "Universal Containers is implementing a customer verification process for its service agent where sensitive account information can only be accessed after the customer passes identity verification. Ihe Agentforce Specialist needs to ensure this security rule is enforced deterministically, preventing the large language model (LLM) from bypassing the verification requirement to execute the account lookup action. What should the specialist configure to manage this deterministic behavior?",
   "options": [
@@ -550,7 +550,7 @@ const QUESTIONS_ENG = [
   "prevId": 17
  },
  {
-  "id": 24,
+  "id": 22,
   "category": "Agentforce Concepts",
   "text": "Cloud Kicks (CK) is launching a new partner portal on Experience Cloud. CK wants to provide partners with an agent that can answer questions about product specifications from the knowledge base and allow them to submit a new Lead for a potential customer they've identified. The agent must be accessible only to authenticated partner users on the portal. Which agent type is required to meet this requirement?",
   "options": [
@@ -576,7 +576,7 @@ const QUESTIONS_ENG = [
   "prevId": 333
  },
  {
-  "id": 25,
+  "id": 23,
   "category": "Setup & Integration",
   "text": "A company built a custom Apex action invoked by an Employee Agent to fetch data from an external API. The callout method uses the current user's Salesforce session ID to authenticate the callout. The external callout works perfectly in the UI, but silently fails when the agent triggers it. What is the architectural best practice to fix this?",
   "options": [
@@ -602,7 +602,7 @@ const QUESTIONS_ENG = [
   "prevId": 276
  },
  {
-  "id": 26,
+  "id": 24,
   "category": "Prompt Engineering",
   "text": "An Agentforce Specialist at Universal Containers (UC) is building with no-code tools only. They have many small accounts that are only touched periodically by a specialized sales team, and UC wants to maximize the sales operations team's time. UC wants to help prep the sales team for calls by: Summarizing past purchases Displaying products the contact has shown interest in (with data captured via Data 360) Providing a recap of past email and phone conversations that have transcripts Which approach should the Agentforce Specialist recommend to achieve this goal?",
   "options": [
@@ -628,7 +628,7 @@ const QUESTIONS_ENG = [
   "prevId": 7
  },
  {
-  "id": 27,
+  "id": 25,
   "category": "Agentforce Concepts",
   "text": "Universal Containers (UC) needs to ensure that its agent can immediately process customer returns by validating order eligibility before proceeding with the return process. UC wants to maintain a natural conversational flow for customers while ensuring that the order validation step is strictly followed. What should the Agentforce Specialist do to achieve the desired outcome?",
   "options": [
@@ -654,7 +654,7 @@ const QUESTIONS_ENG = [
   "prevId": 299
  },
  {
-  "id": 28,
+  "id": 26,
   "category": "Agentforce Concepts",
   "text": "Universal Containers has developed an agent for loan origination workflows that must handle both non-determinism and strict regulatory compliance requirements The agent needs to ensure that identity verification and credit check steps execute in a precise sequence without deviation. Which statement correctly differentiates these two instruction pattems in Agent Script's hybrid reasoning approach?",
   "options": [
@@ -680,7 +680,7 @@ const QUESTIONS_ENG = [
   "prevId": 319
  },
  {
-  "id": 29,
+  "id": 27,
   "category": "Prompt Engineering",
   "text": "Universal Containers (UC) has a Flex prompt template that has been used for the last 3 months to answer questions based on user input. Now, UC wants to give a PDF as a second input. What is the best approach for the Agentforce Specialist to meet this requirement?",
   "options": [
@@ -706,7 +706,7 @@ const QUESTIONS_ENG = [
   "prevId": 213
  },
  {
-  "id": 30,
+  "id": 28,
   "category": "Trust Layer & Security",
   "text": "An Agentforce Specialist deployed a Service Agent to an Experience Cloud site and enabled Credential Based User Verification. The specialist notices that all DML record updates are showing the \"LastModifiedUser\" as the authenticated Community User instead of the Agent User. What should the specialist explain to the business about the effect on audit fields?",
   "options": [
@@ -732,7 +732,7 @@ const QUESTIONS_ENG = [
   "prevId": 24
  },
  {
-  "id": 31,
+  "id": 29,
   "category": "Setup & Integration",
   "text": "Universal Containers is deploying two agents simultaneously: an internal Sales Productivity Agent for employees and a customer-facing Service Agent on its Experience Cloud site. An Agentforce Specialist is configuring permissions and needs to understand the correct security context for each. Which statement accurately describes the execution model?",
   "options": [
@@ -758,7 +758,7 @@ const QUESTIONS_ENG = [
   "prevId": 126
  },
  {
-  "id": 32,
+  "id": 30,
   "category": "Agentforce Concepts",
   "text": "Universal Containers has configured an agent to handle customer return requests. When a customer initiates a return, the agent must calculate a specific restocking fee. The agent needs to quote this exact fee to the customer and then reuse that same fee amount when summarizing the final refund. The Specialist needs to ensure the agent uses deterministic logic to calculate the fee and consistently reuses the exact same value without guessing or hallucinating. How should the specialist configure the agent to achieve this behavior?",
   "options": [
@@ -784,7 +784,7 @@ const QUESTIONS_ENG = [
   "prevId": 3
  },
  {
-  "id": 33,
+  "id": 31,
   "category": "Prompt Engineering",
   "text": "The support team at Coral Cloud Resorts needs to create a Flex prompt template that summarizes complex case histories for agent handoffs. The goal is to ensure summaries are concise and follow a specific three-part structure: Issue, Steps Taken, and Next Action. What should an Agentforce Specialist recommend to ensure consistent data output?",
   "options": [
@@ -810,7 +810,7 @@ const QUESTIONS_ENG = [
   "prevId": 167
  },
  {
-  "id": 34,
+  "id": 32,
   "category": "Agentforce Concepts",
   "text": "Northern Trail Outfitters is testing an agent connected to an Agentforce Data Library. The agent successfully retrieves the correct data from the library, but delivers the response to the user as raw JSON structures instead of grammatically correct conversational language. Which quality evaluation scores poorly in this scenario?",
   "options": [
@@ -836,7 +836,7 @@ const QUESTIONS_ENG = [
   "prevId": 234
  },
  {
-  "id": 35,
+  "id": 33,
   "category": "Prompt Engineering",
   "text": "An Agentforce Specialist wants to troubleshoot an agent that is hallucinating weblinks. The agent has an action that uses a prompt template, which is using a knowledge retriever, to generate the output text that the agent will use. What is an appropriate step to find the root cause of the hallucination behavior?",
   "options": [
@@ -862,7 +862,7 @@ const QUESTIONS_ENG = [
   "prevId": 327
  },
  {
-  "id": 36,
+  "id": 34,
   "category": "Prompt Engineering",
   "text": "An Agentforce Specialist at Universal Containers is trying to set up a new Field Generation prompt template. They take the following steps. 1. Create a new Field Generation prompt template. 2. Choose Case as the object type. 3. Select the custom field AI_Analysis__c as the target field. After creating the prompt template, the Agentforce Specialist saves, tests, and activates it. However, when they go to a case record, the AI Analysis field does not show the (Sparkle) icon on the Edit pencil. When the Agentforce Specialist was editing the field, it was behaving as a normal field. Which critical step did the Agentforce Specialist miss?",
   "options": [
@@ -886,7 +886,7 @@ const QUESTIONS_ENG = [
   "reviewNote": "The PDF prints only two options for this question."
  },
  {
-  "id": 37,
+  "id": 35,
   "category": "Agentforce & Data",
   "text": "In a knowledge-based data library configuration, what is the primary difference between the identifying fields and the content fields?",
   "options": [
@@ -912,7 +912,7 @@ const QUESTIONS_ENG = [
   "prevId": 73
  },
  {
-  "id": 38,
+  "id": 36,
   "category": "Agentforce & Data",
   "text": "Before deploying a Retrieval Augmented Generation (RAG) solution into production, an Agentforce Specialist wants to evaluate whether their individual custom retrievers are surfacing the most relevant chunks for specific queries without writing any code. Which tool should the specialist use to test the retriever?",
   "options": [
@@ -938,7 +938,7 @@ const QUESTIONS_ENG = [
   "prevId": 121
  },
  {
-  "id": 39,
+  "id": 37,
   "category": "Setup & Integration",
   "text": "Universal Containers uses Agentforce to manage its customer service operations. However, the company uses a completely separate, third-party AI agent system to manage its warehouse logistics. UC wants the Agentforce customer service agent to be able to seamlessly request shipping reroutes and collaborate autonomously with the warehouse agent. Which open standard protocol is specifically designed to facilitate this exact type of cross-platform collaboration?",
   "options": [
@@ -964,7 +964,7 @@ const QUESTIONS_ENG = [
   "prevId": 237
  },
  {
-  "id": 40,
+  "id": 38,
   "category": "Agentforce Concepts",
   "text": "Universal Containers is building an Agentforce Service Agent to handle password resets. The agent must first verify the customer's identity using an email verification code, then once identity is confirmed the agent must execute the organization's existing password reset Flow. The identity verification subagent is already configured. Which implementation approach should the Agentforce Specialist recommend?",
   "options": [
@@ -990,7 +990,7 @@ const QUESTIONS_ENG = [
   "prevId": 112
  },
  {
-  "id": 41,
+  "id": 39,
   "category": "Prompt Engineering",
   "text": "Universal Containers (UC) has a new AI project. What should UC consider when adding a related list on the Account page to be used in the prompt template?",
   "options": [
@@ -1018,7 +1018,7 @@ const QUESTIONS_ENG = [
   "reviewNote": "Key taken from download.pdf; the previous bank (Q60) keyed a different answer — see the note in the explanation."
  },
  {
-  "id": 42,
+  "id": 40,
   "category": "Agentforce & Data",
   "text": "Pacific Distribution Co. is implementing a system to manage partner order support and inventory inquiries. The company needs to ensure that large documents are processed effectively to improve retrieval accuracy when agents respond to partner queries. Understanding how documents are broken down and indexed is crucial for this implementation. What is a key characteristic of the chunking process?",
   "options": [
@@ -1044,7 +1044,7 @@ const QUESTIONS_ENG = [
   "prevId": 14
  },
  {
-  "id": 43,
+  "id": 41,
   "category": "Agentforce Concepts",
   "text": "An Agentforce Specialist at Universal Containers observes that the agent frequently directs customers with clear billing inquiries to the general troubleshooting subagent (formerly known as a topic). This misrouting is causing a spike in average handle time and missing service-level agreement (SLA) targets. The contact center manager requires a solution that is quick to implement but preserves the agent's ability to handle complex, non-linear conversations. What is the most appropriate approach to resolve this?",
   "options": [
@@ -1069,7 +1069,7 @@ const QUESTIONS_ENG = [
   "sourceRef": "download.pdf Q45 (p17)"
  },
  {
-  "id": 44,
+  "id": 42,
   "category": "Agentforce Concepts",
   "text": "Universal Containers is building an Agentforce Service Agent to help customers track their purchases. To store the customer's order number during the conversation, the Agentforce Specialist creates and initializes a variable in Agent Script using the declaration order_id: string = \"\", omitting the mutable keyword. During testing, the agent attempts to update this variable with the user's order number via the @utils.setVariables utility. What is the result of this variable declaration at runtime?",
   "options": [
@@ -1095,7 +1095,7 @@ const QUESTIONS_ENG = [
   "prevId": 169
  },
  {
-  "id": 45,
+  "id": 43,
   "category": "Agentforce Concepts",
   "text": "Universal Containers has deployed a Service Agent to production that handles billing, retums, and technical support across 12 subagents (formerly known as topics). Following a business process change, the Agentforce Specialist updates the Billing subagent instructions to include a new refund escalation path. Within days, the customer experience team reports that billing interactions are intermittently routing to the General FAQ subagent instead. Which approach is most effective in helping to diagnose the cause and confirm the full extent of the impact?",
   "options": [
@@ -1121,7 +1121,7 @@ const QUESTIONS_ENG = [
   "prevId": 290
  },
  {
-  "id": 46,
+  "id": 44,
   "category": "Setup & Integration",
   "text": "What is a valid option for Omni-Channel routing for a messaging channel?",
   "options": [
@@ -1147,7 +1147,7 @@ const QUESTIONS_ENG = [
   "prevId": 179
  },
  {
-  "id": 47,
+  "id": 45,
   "category": "Agentforce & Data",
   "text": "In a knowledge-based data library, which capability does enabling the \"Filter by Knowledge Data Categories\" option provide?",
   "options": [
@@ -1173,7 +1173,7 @@ const QUESTIONS_ENG = [
   "prevId": 245
  },
  {
-  "id": 48,
+  "id": 46,
   "category": "Setup & Integration",
   "text": "Which element should an Agentforce Specialist use in an Omni-Flow to route conversations to an agent?",
   "options": [
@@ -1199,7 +1199,7 @@ const QUESTIONS_ENG = [
   "prevId": 200
  },
  {
-  "id": 49,
+  "id": 47,
   "category": "Agentforce & Data",
   "text": "A company needs to ensure customers always receive answers based on the most current version of support documentation, What should an Agentforce Specialist recommend?",
   "options": [
@@ -1225,7 +1225,7 @@ const QUESTIONS_ENG = [
   "prevId": 337
  },
  {
-  "id": 50,
+  "id": 48,
   "category": "Agentforce Concepts",
   "text": "Universal Containers' Agentforce Service Agent has been live for 4 weeks. Agent Optimization in Agentforce Observability shows the main support intent cluster scoring low quality, with score reasons citing ambiguous subagent match. The Session Trace confirms the reasoning engine is consistently selecting the wrong subagent on most turns. What is the most viable solution to resolve the issue?",
   "options": [
@@ -1251,7 +1251,7 @@ const QUESTIONS_ENG = [
   "prevId": 362
  },
  {
-  "id": 51,
+  "id": 49,
   "category": "Prompt Engineering",
   "text": "A service manager wants to use Salesforce Prompt Builder to help agents summarize customer case notes after a support call. The summary should: + Capture the customer's issue, troubleshooting steps taken, and next actions. + Be no longer than five sentences. + Use plain language (no technical jargon). + If no next action is identified, the summary should explicitly state \"No next action required.\" Which key prompt constructs meet this requirement?",
   "options": [
@@ -1277,7 +1277,7 @@ const QUESTIONS_ENG = [
   "prevId": 170
  },
  {
-  "id": 52,
+  "id": 50,
   "category": "Agentforce & Data",
   "text": "What happens when a chunk of text is vectorized?",
   "options": [
@@ -1303,7 +1303,7 @@ const QUESTIONS_ENG = [
   "prevId": 335
  },
  {
-  "id": 53,
+  "id": 51,
   "category": "Agentforce & Data",
   "text": "Universal Containers needs to ground a new Agentforce agent with structured data stored in an external system without duplicating it in Data 360. This approach is necessary to ensure real-time data accuracy and minimize storage costs. Which Data 360 concept should the team use to accomplish this?",
   "options": [
@@ -1329,7 +1329,7 @@ const QUESTIONS_ENG = [
   "prevId": 240
  },
  {
-  "id": 54,
+  "id": 52,
   "category": "Agentforce Concepts",
   "text": "Universal Containers (UC) has deployed several specialized Agentforce Employee Agents such as IT Support, HR Assistant, and Procurement to assist with internal tasks. Recently, UC's help desk has reported a high volume of failed interactions because employees are frequently selecting the incorrect agent to handle their requests (for example, asking the HR Assistant agent to reset a network password). UC wants to improve the user experience, scale their deployment, and centralize control without requiring employees to guess which agent to use. Which architectural approach should the Agentforce Specialist recommend to resolve this issue?",
   "options": [
@@ -1355,7 +1355,7 @@ const QUESTIONS_ENG = [
   "prevId": 259
  },
  {
-  "id": 55,
+  "id": 53,
   "category": "Agentforce & Data",
   "text": "Universal Containers operates a customer self-service portal supported by an Agentforce Service Agent. The compliance team maintains a Salesforce Knowledge base of published product compliance guidelines, service terms, and regulatory procedures, updated regularly by subject matter experts. What is the most efficient approach to ensure the agent retrieves only current published content using semantic understanding of customer questions, and that outdated articles are never surfaced?",
   "options": [
@@ -1381,7 +1381,7 @@ const QUESTIONS_ENG = [
   "prevId": 147
  },
  {
-  "id": 56,
+  "id": 54,
   "category": "Agentforce & Data",
   "text": "An Agentforce Specialist is preparing to upload several PDF policy documents to a new file-based Agentforce Data Library. To leverage advanced processing with Intelligent Context, how should the Agentforce Specialist proceed?",
   "options": [
@@ -1407,13 +1407,13 @@ const QUESTIONS_ENG = [
   "prevId": 128
  },
  {
-  "id": 57,
+  "id": 55,
   "category": "Setup & Integration",
   "text": "Universal Containers is building a custom agent and creating a new Apex action that accepts a collection of text values (such as a list of product names) as an input parameter. The Agentforce Specialist is configuring the action's metadata in Agentforce Assets and needs to properly map this input so the reasoning engine can pass the list of strings correctly. When defining this input, which complex_data_type_name should the Agentforce Specialist use?",
   "options": [
    {
     "letter": "A",
-    "text": "lightning_string Type"
+    "text": "lightning__stringType"
    },
    {
     "letter": "B",
@@ -1425,7 +1425,7 @@ const QUESTIONS_ENG = [
    }
   ],
   "answer": [
-   "C"
+   "A"
   ],
   "multi": false,
   "explanation": "The correct answer is A because Agentforce action metadata must use supported Lightning data types when defining action inputs and outputs. A collection of text values must be exposed to the reasoning engine through a Salesforce-supported Lightning type, not through an Apex implementation name. lightning__stringType correctly maps string-based action input so Agentforce can validate, structure, and pass values into the Apex action. apex__String is not the correct metadata type because it describes an Apex language type, not the Agentforce action schema type. lightning__textType is a UI-oriented text type and is not the correct mapping for this collection-style string action input. Salesforce’s Agentforce developer guidance confirms that Apex strings are mapped to standard Lightning types for action configuration.",
@@ -1433,7 +1433,7 @@ const QUESTIONS_ENG = [
   "prevId": 340
  },
  {
-  "id": 58,
+  "id": 56,
   "category": "Agentforce Concepts",
   "text": "Universal Containers has been building an agent using Canvas. It has created an \"Issue Refund\" action. Business rules dictate that refunds can only be issued if the customer's Account_Tier is \"Platinum\". Currently, the agent relies on its system instructions to check the tier, but it occasionally hallucinates authorization and attempts to call the refund action for Standard customers, resulting in backend errors. How should the Agentforce Specialist use filters to deterministically ensure the agent cannot process the \"Issue Refund\" action unless the customer meets the criteria?",
   "options": [
@@ -1459,7 +1459,7 @@ const QUESTIONS_ENG = [
   "prevId": 334
  },
  {
-  "id": 59,
+  "id": 57,
   "category": "Agentforce Concepts",
   "text": "Universal Containers wants to systematically validate agent responses before deployment using a scalable testing process. Which Testing Center approach should the company implement?",
   "options": [
@@ -1485,7 +1485,7 @@ const QUESTIONS_ENG = [
   "prevId": 184
  },
  {
-  "id": 60,
+  "id": 58,
   "category": "Setup & Integration",
   "text": "Cloud Kicks uses a third-party agent for research and an Agentforce agent for customer service. Which purpose-built protocol allows cross-vendor agents to communicate?",
   "options": [
@@ -1511,7 +1511,7 @@ const QUESTIONS_ENG = [
   "prevId": 82
  },
  {
-  "id": 61,
+  "id": 59,
   "category": "Prompt Engineering",
   "text": "Universal Containers (UC) is deploying several prompt templates to assist its support agents using Salesforce's standard foundation models. Leadership requires the generated responses to consistently reflect an empathetic and highly professional tone. UC only permits the use of standard foundational large language models (LLMs). What is the most effective prompt engineering technique the Agentforce Specialist should implement in Prompt Builder to fulfill this requirement?",
   "options": [
@@ -1537,7 +1537,7 @@ const QUESTIONS_ENG = [
   "prevId": 29
  },
  {
-  "id": 62,
+  "id": 60,
   "category": "Prompt Engineering",
   "text": "An Agentforce Specialist turned on Einstein Generative AI in Setup. Now, the Agentforce Specialist would like to create custom prompt templates in Prompt Builder. However, they cannot access Prompt Builder in the Setup menu. What is causing the problem?",
   "options": [
@@ -1563,7 +1563,7 @@ const QUESTIONS_ENG = [
   "prevId": 187
  },
  {
-  "id": 63,
+  "id": 61,
   "category": "Agentforce & Data",
   "text": "Universal Containers has successfully chunked and vectorized its unstructured meeting notes into a Data 360 search index. An Agentforce Specialist needs to connect this data to a prompt template to dynamically refine search criteria and retrieve the most relevant information. How should the specialist achieve this?",
   "options": [
@@ -1589,7 +1589,7 @@ const QUESTIONS_ENG = [
   "prevId": 309
  },
  {
-  "id": 64,
+  "id": 62,
   "category": "Prompt Engineering",
   "text": "Which business requirement best presents a good use case for using Prompt Builder?",
   "options": [
@@ -1617,7 +1617,7 @@ const QUESTIONS_ENG = [
   "reviewNote": "Key taken from download.pdf; the previous bank (Q316) keyed a different answer — see the note in the explanation."
  },
  {
-  "id": 65,
+  "id": 63,
   "category": "Agentforce Concepts",
   "text": "An Agentforce Specialist is creating a custom agent action. The subagent (formerly known as a topic) is selected correctly, but the action is not. Which component of Action structure in Agent Script helps the large language model (LLM) decide when to use the action?",
   "options": [
@@ -1642,7 +1642,7 @@ const QUESTIONS_ENG = [
   "sourceRef": "download.pdf Q68 (p25)"
  },
  {
-  "id": 66,
+  "id": 64,
   "category": "Trust Layer & Security",
   "text": "An Agentforce Specialist is evaluating an agent conversation. What is the reason why intents and session metrics within Observability are important to consider?",
   "options": [
@@ -1668,7 +1668,7 @@ const QUESTIONS_ENG = [
   "prevId": 297
  },
  {
-  "id": 67,
+  "id": 65,
   "category": "Setup & Integration",
   "text": "Universal Containers (UC) is implementing Agentforce Service Agent on Email. UC made an email template and now needs to connect it to a Service Agent. What should an Agentforce Specialist recommend?",
   "options": [
@@ -1693,7 +1693,7 @@ const QUESTIONS_ENG = [
   "sourceRef": "download.pdf Q70 (p26)"
  },
  {
-  "id": 68,
+  "id": 66,
   "category": "Agentforce Concepts",
   "text": "A company's support agent is inconsistently executing a mandatory fraud check action before processing refunds. In some conversations the fraud-check fires, but in others the agent skips directly to issuing the refund. Upon review, an Agentforce Specialist recommends placing the instruction guideline with 'run @actions.fraud_check' followed by 'run @actions.process_refund'. What is the effect of this configuration change?",
   "options": [
@@ -1719,7 +1719,7 @@ const QUESTIONS_ENG = [
   "prevId": 27
  },
  {
-  "id": 69,
+  "id": 67,
   "category": "Agentforce Concepts",
   "text": "Universal Containers is configuring its Agentforce Testing Center to evaluate an agent handling customer complaints. The company wants to assess if the agent successfully demonstrates empathy and follows a proprietary \"De-escalation Framework\" before offering a resolution. Where should the Agentforce Specialist utilize an LLM-as-judge to achieve an appropriate evaluation?",
   "options": [
@@ -1745,7 +1745,7 @@ const QUESTIONS_ENG = [
   "prevId": 363
  },
  {
-  "id": 70,
+  "id": 68,
   "category": "Agentforce Concepts",
   "text": "Universal Containers' agent must always look up the customer's account tier and open cases from Salesforce before deciding how to respond. Based on Agent Script flow of control, what is true about executing deterministic actions at the very start of a subagent?",
   "options": [
@@ -1773,7 +1773,7 @@ const QUESTIONS_ENG = [
   "reviewNote": "Key taken from download.pdf; the previous bank (Q54) keyed a different answer — see the note in the explanation."
  },
  {
-  "id": 71,
+  "id": 69,
   "category": "Agentforce Concepts",
   "text": "An Agentforce Specialist is testing an agent with Testing Center. The test results show that an agent correctly identifies the right subagent to handle an utterance, but it fails to select all necessary actions within that subagent. Which evaluation metric specifically identifies this failure?",
   "options": [
@@ -1799,7 +1799,7 @@ const QUESTIONS_ENG = [
   "prevId": 124
  },
  {
-  "id": 72,
+  "id": 70,
   "category": "Agentforce & Data",
   "text": "Universal Containers (UC) has configured a data library and wants to restrict indexing of knowledge articles to articles that are only publicly available. UC also wants the agent to link sources that the LLM grounded its response on. Which settings should help UC with this?",
   "options": [
@@ -1825,7 +1825,7 @@ const QUESTIONS_ENG = [
   "prevId": 224
  },
  {
-  "id": 73,
+  "id": 71,
   "category": "Setup & Integration",
   "text": "The compliance team at Universal Containers has determined that a specific customer service prompt must only process data through a secure, self-hosted Amazon Bedrock model and must be prevented from accessing the default OpenAl models. How should the Agentforce Specialist configure this specific model routing?",
   "options": [
@@ -1851,7 +1851,7 @@ const QUESTIONS_ENG = [
   "prevId": 138
  },
  {
-  "id": 74,
+  "id": 72,
   "category": "Agentforce Concepts",
   "text": "Cloud Kicks wants its Agentforce Service Agent to retrieve up-to-date factual data from the internet. Which step must an Agentforce Specialist take to ensure the agent uses web search capability properly?",
   "options": [
@@ -1879,7 +1879,7 @@ const QUESTIONS_ENG = [
   "reviewNote": "Key taken from download.pdf; the previous bank (Q171) keyed a different answer — see the note in the explanation."
  },
  {
-  "id": 75,
+  "id": 73,
   "category": "Setup & Integration",
   "text": "Universal Containers (UC) is scaling its Agentforce deployment and needs to securely connect its AI agents to a growing number of external enterprise data systems and local developer environments. Instead of building custom integration logic for each new data source, the Specialist recommends leveraging the Model Context Protocol (MCP). What is the primary purpose of using an open standard like MCP in this scenario?",
   "options": [
@@ -1905,7 +1905,7 @@ const QUESTIONS_ENG = [
   "prevId": 79
  },
  {
-  "id": 76,
+  "id": 74,
   "category": "Agentforce & Data",
   "text": "An Agentforce Specialist at Universal Containers previously recommended removing superseded mortgage policy documents ingested into Data 360 to prevent retrieval of outdated terms. Legal has now confirmed that all historical versions must remain, as each version remains contractually binding for customers who signed under it. Which revised recommendation should the specialist make?",
   "options": [
@@ -1930,7 +1930,7 @@ const QUESTIONS_ENG = [
   "sourceRef": "download.pdf Q79 (p29)"
  },
  {
-  "id": 77,
+  "id": 75,
   "category": "Prompt Engineering",
   "text": "Universal Containers (UC) wants to incorporate the current order fulfillment status into a prompt for an LLM. The order status is stored in an external ERP system. What is the most appropriate data grounding technique?",
   "options": [
@@ -1955,7 +1955,7 @@ const QUESTIONS_ENG = [
   "sourceRef": "download.pdf Q80 (p30)"
  },
  {
-  "id": 78,
+  "id": 76,
   "category": "Agentforce Concepts",
   "text": "Before activating a custom agent action, an Agentforce Specialist wants to evaluate multiple real-world user utterances to ensure the action is being selected appropriately. Which tool should the Specialist recommend?",
   "options": [
@@ -1983,7 +1983,7 @@ const QUESTIONS_ENG = [
   "reviewNote": "Key taken from download.pdf; the previous bank (Q40) keyed a different answer — see the note in the explanation."
  },
  {
-  "id": 79,
+  "id": 77,
   "category": "Agentforce Concepts",
   "text": "Universal Containers has deployed Agentforce to handle customer order tracking, returns, and loyalty support. The agent needs to balance conversational flexibility with guaranteed execution of identity verification steps before accessing account information. Which statement correctly describes hybrid reasoning in Agentforce Agent Script?",
   "options": [
@@ -2008,7 +2008,7 @@ const QUESTIONS_ENG = [
   "sourceRef": "download.pdf Q82 (p30)"
  },
  {
-  "id": 80,
+  "id": 78,
   "category": "Setup & Integration",
   "text": "Universal Containers has built a Service Agent grounded on a knowledge data library containing 200 FAQ articles. The team estimates manually authoring test cases for adequate coverage would take 3 weeks. Which step should the Specialist take to generate a comprehensive initial test suite without manual authoring?",
   "options": [
@@ -2033,7 +2033,7 @@ const QUESTIONS_ENG = [
   "sourceRef": "download.pdf Q83 (p31)"
  },
  {
-  "id": 81,
+  "id": 79,
   "category": "Prompt Engineering",
   "text": "An Agentforce Specialist is working declaratively on version 4 of a prompt template. A bug is identified in version 3 and requires a hotfix to be deployed to production immediately. The team will deploy this change as a new version. What should the specialist do to ensure their work on version 4 is not lost and does not conflict with the new version?",
   "options": [
@@ -2059,7 +2059,7 @@ const QUESTIONS_ENG = [
   "prevId": 212
  },
  {
-  "id": 82,
+  "id": 80,
   "category": "Agentforce & Data",
   "text": "Cloud Kicks has long, complex legal agreements. An agent must retrieve specific clauses often nested within larger sections. Standard chunking fails to capture full context. Which chunking strategy should be used to preserve document structure?",
   "options": [
@@ -2085,7 +2085,7 @@ const QUESTIONS_ENG = [
   "prevId": 186
  },
  {
-  "id": 83,
+  "id": 81,
   "category": "Agentforce & Data",
   "text": "An Agentforce Specialist is setting up Salesforce Knowledge as a data source for a Data Library and must select \"Identifying Fields\" to help Agentforce locate the right information. The Knowledge article contents are rich, detailed, and quite long. What should the Specialist use as Identifying Fields?",
   "options": [
@@ -2111,7 +2111,7 @@ const QUESTIONS_ENG = [
   "prevId": 2
  },
  {
-  "id": 84,
+  "id": 82,
   "category": "Agentforce & Data",
   "text": "Universal Containers (UC) has built a custom retriever in AI Models (formerly Einstein Studio) to ground AI responses with technical documentation. UC now requires that a summary field from the search index be included in the output to provide a brief overview of each retrieved document. What is the recommended course of action for UC?",
   "options": [
@@ -2137,7 +2137,7 @@ const QUESTIONS_ENG = [
   "prevId": 222
  },
  {
-  "id": 85,
+  "id": 83,
   "category": "Trust Layer & Security",
   "text": "An Agentforce Specialist is trying to troubleshoot a reported issue from an end user and they do not see the session in the Processed Sessions tab of Agentforce Observability. What should the specialist take into consideration?",
   "options": [
@@ -2163,7 +2163,7 @@ const QUESTIONS_ENG = [
   "prevId": 172
  },
  {
-  "id": 86,
+  "id": 84,
   "category": "Agentforce Concepts",
   "text": "Universal Containers is designing an agent to assist with order management and dealer support automation. The agent must verify a dealer's credentials before granting access to order details. The team has already: Declared a variable is verified to track verification status Configured an action that verifies the dealer's credentials Plans to restrict access to the order details subagent using a guard condition based on is verified What must the team do to ensure the order details subagent becomes available only after a dealer is successfully verified?",
   "options": [
@@ -2189,7 +2189,7 @@ const QUESTIONS_ENG = [
   "prevId": 356
  },
  {
-  "id": 87,
+  "id": 85,
   "category": "Agentforce & Data",
   "text": "Universal Containers is implementing a Retrieval Augmented Generation (RAG) solution where the knowledge store contains Spanish articles, but users will query the agent in French and English. The Agentforce Specialist needs to ensure the retriever can accurately find relevant articles despite the language differences. What should the specialist do to meet this requirement?",
   "options": [
@@ -2215,7 +2215,7 @@ const QUESTIONS_ENG = [
   "prevId": 355
  },
  {
-  "id": 88,
+  "id": 86,
   "category": "Agentforce Concepts",
   "text": "Universal Containers (UC) recently attended a major trade show and received thousands of new leads from event badge scans. UC is struggling to follow up with each lead in a timely, personalized way. Leadership wants to: Qualify and nurture leads 24/7 Provide accurate answers to prospect questions Automatically book meetings with qualified prospects Free up reps to focus on building relationships and closing deals Which Agentforce capability should UC implement to meet these goals?",
   "options": [
@@ -2240,7 +2240,7 @@ const QUESTIONS_ENG = [
   "sourceRef": "download.pdf Q91 (p34)"
  },
  {
-  "id": 89,
+  "id": 87,
   "category": "Prompt Engineering",
   "text": "Universal Containers (UC) wants to create a prompt template that consistently extracts a customer's specific product model number and quantity from an email inquiry to draft a response back to the customer. Which best practice should UC implement to achieve this goal?",
   "options": [
@@ -2268,7 +2268,7 @@ const QUESTIONS_ENG = [
   "reviewNote": "The PDF contains this question twice (Q92 and Q21) with different keys."
  },
  {
-  "id": 90,
+  "id": 88,
   "category": "Prompt Engineering",
   "text": "An Agentforce Specialist is creating a prompt template to assist service reps in drafting responses to customer complaints. To ensure the responses are empathetic and helpful, what is a key element to include in the prompt template?",
   "options": [
@@ -2294,7 +2294,7 @@ const QUESTIONS_ENG = [
   "prevId": 302
  },
  {
-  "id": 91,
+  "id": 89,
   "category": "Trust Layer & Security",
   "text": "A customer wants to analyze complete agent interactions, from the initial user request through to the final resolution, to better understand agent behavior and response quality. Which Agentforce feature should an Agentforce Specialist recommend?",
   "options": [
@@ -2322,7 +2322,7 @@ const QUESTIONS_ENG = [
   "reviewNote": "Key taken from download.pdf; the previous bank (Q227) keyed a different answer — see the note in the explanation."
  },
  {
-  "id": 92,
+  "id": 90,
   "category": "Prompt Engineering",
   "text": "Universal Containers (UC) is tracking web activities in Data 360 for a unified contact. It wants to use that information in a prompt template to help extract insights from the data. Assuming that the Contact object is one of the objects associated with the prompt template, what is a valid way for UC to do this?",
   "options": [
@@ -2348,7 +2348,7 @@ const QUESTIONS_ENG = [
   "prevId": 84
  },
  {
-  "id": 93,
+  "id": 91,
   "category": "Agentforce Concepts",
   "text": "A customer is authenticated and identitied as being either bronze, silver, or gold membership level. Those levels define which subagents or actions are available to perform specific tasks as per level-based entitlements. What is the best way to ensure the agent responds appropriately?",
   "options": [
@@ -2374,7 +2374,7 @@ const QUESTIONS_ENG = [
   "prevId": 223
  },
  {
-  "id": 94,
+  "id": 92,
   "category": "Trust Layer & Security",
   "text": "Which feature in the Trust Layer helps to minimize the risks of jailbreaking and prompt injection attacks?",
   "options": [
@@ -2400,7 +2400,7 @@ const QUESTIONS_ENG = [
   "prevId": 42
  },
  {
-  "id": 95,
+  "id": 93,
   "category": "Agentforce & Data",
   "text": "An Agentforce Specialist at Cloud Kicks wants to build a RAG-powered agent grounded in text-based PDF documents. The specialist wants a quick-start approach that automatically generates all underlying components, including the vector data store, search index, retriever, and standard action. Which feature should the specialist use?",
   "options": [
@@ -2426,7 +2426,7 @@ const QUESTIONS_ENG = [
   "prevId": 211
  },
  {
-  "id": 96,
+  "id": 94,
   "category": "Trust Layer & Security",
   "text": "Universal Containers operates in a regulated industry and must maintain a complete, turn-by-turn audit trail of every agent interaction. Which Agentforce feature provides full visibility into reasoning engine executions, actions, inputs, outputs, and error messages across an entire agent conversation?",
   "options": [
@@ -2451,7 +2451,7 @@ const QUESTIONS_ENG = [
   "sourceRef": "download.pdf Q101 (p37)"
  },
  {
-  "id": 97,
+  "id": 95,
   "category": "Agentforce Concepts",
   "text": "Universal Containers operates in a regulated industry and has deployed an Agentforce customer service agent handling thousands of interactions per week. The operations team notices that a significant number of conversations result in unexpected escalations, but cannot identify which subagents or actions are consistently underperforming or misconfigured. Which Agentforce feature allows the team to cluster interaction patterns, identify performance gaps across sessions, and apply quality scoring to pinpoint where the agent's configuration needs improvement?",
   "options": [
@@ -2477,7 +2477,7 @@ const QUESTIONS_ENG = [
   "prevId": 8
  },
  {
-  "id": 98,
+  "id": 96,
   "category": "Prompt Engineering",
   "text": "Universal Containers (UC) wants to ground a new prompt template with the User related list. What should UC consider?",
   "options": [
@@ -2503,7 +2503,7 @@ const QUESTIONS_ENG = [
   "prevId": 248
  },
  {
-  "id": 99,
+  "id": 97,
   "category": "Agentforce Concepts",
   "text": "Universal Containers is developing an Agentforce Service Agent to handle a complex, multi-step customer onboarding process. To better organize the conversational logic, the Specialist splits the process across two distinct subagents and places the setup configuration for the second step inside the before_reasoning block of the new subagent. During testing, when the agent transitions to this new subagent mid conversation, the conversation occasionally stalls or behaves unexpectedly. What is the risk the Specialist must consider regarding the execution timing of before_reasoning?",
   "options": [
@@ -2529,7 +2529,7 @@ const QUESTIONS_ENG = [
   "prevId": 115
  },
  {
-  "id": 100,
+  "id": 98,
   "category": "Agentforce Concepts",
   "text": "When a verified customer in a help center says, \"| want to upgrade my service plan,\" an AI agent needs to complete the following asks: Verify identity and entitlement Create a new quote Calculate a prorated upgrade amount Escalate to an Account Executive (AE) only if the reorder exceeds US\\$25,000 Which type of agent should an Agentforce Specialist build to support this use case?",
   "options": [
@@ -2555,7 +2555,7 @@ const QUESTIONS_ENG = [
   "prevId": 19
  },
  {
-  "id": 101,
+  "id": 99,
   "category": "Prompt Engineering",
   "text": "Universal Containers (UC) wants users to populate the Description field on the Account record by clicking a button on the record page, with the option to preview, regenerate, or manually edit the output before it is saved. The solution must use declarative tools only. Which type of prompt template should UC use?",
   "options": [
@@ -2581,7 +2581,7 @@ const QUESTIONS_ENG = [
   "prevId": 134
  },
  {
-  "id": 102,
+  "id": 100,
   "category": "Trust Layer & Security",
   "text": "Universal Containers recently deployed a customer service agent to handle common inquiries. After a month of usage, the support manager wants to analyze the agent's performance. They need to view aggregated metrics such as escalation rate to human agents, average session duration, and which topics have the lowest resolution scores so they can prioritize which agent actions need optimization. Which native Salesforce capability should the Specialist use to provide these insights and guide the optimization strategy?",
   "options": [
@@ -2607,7 +2607,7 @@ const QUESTIONS_ENG = [
   "prevId": 228
  },
  {
-  "id": 103,
+  "id": 101,
   "category": "Agentforce Concepts",
   "text": "Coral Cloud Resorts wants to cover a broad range of user phrasing when testing its FAQ agent. Which Testing Center functionality supports this need?",
   "options": [
@@ -2633,7 +2633,7 @@ const QUESTIONS_ENG = [
   "prevId": 39
  },
  {
-  "id": 104,
+  "id": 102,
   "category": "Agentforce & Data",
   "text": "During RAG quality testing, an Agentforce Specialist notices that tabular information from a custom Data 360 Document Ingestion Pipeline is losing its context because the data is scattered across multiple separate chunks. What is the most appropriate approach to resolve this?",
   "options": [
@@ -2661,7 +2661,7 @@ const QUESTIONS_ENG = [
   "reviewNote": "Key taken from download.pdf; the previous bank (Q95) keyed a different answer — see the note in the explanation."
  },
  {
-  "id": 105,
+  "id": 103,
   "category": "Agentforce Concepts",
   "text": "Universal Containers is configuring a customer service agent and needs to restrict a specific \"Process Refund\" action so that it is only visible to the reasoning engine when a customer's account is flagged as active. An Agentforce Specialist is writing the available when clause in Agent Script to evaluate the @variables.IsActive variable. Which operator should the Agentforce Specialist use for this condition?",
   "options": [
@@ -2687,7 +2687,7 @@ const QUESTIONS_ENG = [
   "prevId": 293
  },
  {
-  "id": 106,
+  "id": 104,
   "category": "Agentforce Concepts",
   "text": "Universal Containers is deploying a new customer service agent using Agent Script. The Specialist needs to update conversational state, navigate between different subagents, and hand off conversations to a human agent when necessary. To minimize technical debt, the Specialist wants to implement these capabilities without building any custom backend code. Which statement correctly describes how the Specialist can implement these specific requirements?",
   "options": [
@@ -2713,7 +2713,7 @@ const QUESTIONS_ENG = [
   "prevId": 97
  },
  {
-  "id": 107,
+  "id": 105,
   "category": "Setup & Integration",
   "text": "Universal Containers is auditing its AI architecture and needs to ensure that its developers are restricted to using only specifically approved large language models (LLMs). How should an Agentforce Specialist manage and prevent unapproved models from being accessed across the organization?",
   "options": [
@@ -2739,7 +2739,7 @@ const QUESTIONS_ENG = [
   "prevId": 148
  },
  {
-  "id": 108,
+  "id": 106,
   "category": "Agentforce Concepts",
   "text": "Universal Containers' Agentforce Specialist suspects the Service Agent is systematically misclassifying billing dispute intents under a general enquiry topic, causing incorrect actions to execute. The administrator needs to identify this pattern across production sessions without reviewing individual transcripts. What should the specialist recommend?",
   "options": [
@@ -2765,7 +2765,7 @@ const QUESTIONS_ENG = [
   "prevId": 219
  },
  {
-  "id": 109,
+  "id": 107,
   "category": "Agentforce Concepts",
   "text": "Universal Containers wants to ensure that its AI agent's responses consistently refiect the company's unique brand voice and specific quality standards beyond simple pass or fail checks. How should the Agentforce Specialist configure the Testing Center to evaluate this specific criteria?",
   "options": [
@@ -2791,7 +2791,7 @@ const QUESTIONS_ENG = [
   "prevId": 261
  },
  {
-  "id": 110,
+  "id": 108,
   "category": "Setup & Integration",
   "text": "Universal Containers has multiple Salesforce orgs, each with a unique customer service agent where a verification agent must pass customer identity data to downstream agents handling account modifications. The customer ID must remain secure and persistent across agent handoffs without exposure to large language model (LLM) modification. What is the most appropriate configuration?",
   "options": [
@@ -2817,7 +2817,7 @@ const QUESTIONS_ENG = [
   "prevId": 58
  },
  {
-  "id": 111,
+  "id": 109,
   "category": "Prompt Engineering",
   "text": "The sales team at a hotel resort would like to generate a guest summary about each guest's interests and provide recommendations based on the activity preferences captured in each guest profile. They want the summary to be available only on the Contact record page. Which AI capability should the team use?",
   "options": [
@@ -2843,7 +2843,7 @@ const QUESTIONS_ENG = [
   "prevId": 114
  },
  {
-  "id": 112,
+  "id": 110,
   "category": "Agentforce Concepts",
   "text": "Universal Containers wants to allow its service agents to query the current fulfillment status of an order with natural language. There is an existing autolauched flow to query the information from Oracle ERP, which is the system of record for the order fulfillment process. How should an Agentforce Specialist apply the power of conversational AI to this use case?",
   "options": [
@@ -2869,7 +2869,7 @@ const QUESTIONS_ENG = [
   "prevId": 322
  },
  {
-  "id": 113,
+  "id": 111,
   "category": "Prompt Engineering",
   "text": "Universal Containers (UC) needs to create a sales email with a custom prompt template. UC needs to ground on the following data. Opportunity Products Events near the customer Tone and voice examples How should UC obtain related items?",
   "options": [
@@ -2896,7 +2896,7 @@ const QUESTIONS_ENG = [
   "reviewNote": "The PDF contains this question twice (Q119 and Q10) with different keys."
  },
  {
-  "id": 114,
+  "id": 112,
   "category": "Trust Layer & Security",
   "text": "The VP of Service at Universal Containers (UC) requires a report showing weekly deflection rate trends and escalation volumes for the Agentforce Service Agent over the past 90 days. Which approach should the Agentforce Specialist recommend?",
   "options": [
@@ -2922,7 +2922,7 @@ const QUESTIONS_ENG = [
   "prevId": 306
  },
  {
-  "id": 115,
+  "id": 113,
   "category": "Agentforce Concepts",
   "text": "The Agentforce Specialist for Coral Cloud Resorts wants to create an agent that will automate the resolution of a large portion of guest complaints related to their vacation experiences. The agent will be able to offer upgrades, hotel credit, and other complimentary options. The agent will also be in charge of escalating the case to a human when a guest has suffered a major disruption (such as cancellation). Following Salesforce best practices, which type of agent should the Agentforce Specialist create?",
   "options": [
@@ -2948,7 +2948,7 @@ const QUESTIONS_ENG = [
   "prevId": 12
  },
  {
-  "id": 116,
+  "id": 114,
   "category": "Agentforce Concepts",
   "text": "Universal Containers is testing an agent with a \"Reset Password\" action restricted by the guard available when @variables.isVerified = True. During a single conversation turn, the large language model (LLM) successfully sets the isVerified flag to true using @utils.setVariables, but fails to invoke the \"Reset Password\" action immediately afterward. What must the Agentforce Specialist consider regarding how the reasoning engine evaluates action availability?",
   "options": [
@@ -2974,7 +2974,7 @@ const QUESTIONS_ENG = [
   "prevId": 99
  },
  {
-  "id": 117,
+  "id": 115,
   "category": "Agentforce Concepts",
   "text": "At Horizon Insurance, the customer service team is reporting that the agent consistently routes claims intake conversations to the Policy Inquiry subagent (formerly known as a topic), even though user intent clearly indicates a claims-related issue. This misrouting persists despite the user clearly expressing the intent to discuss a claim. The Agentforce Specialist added guard conditions but the problem persists. What is most likely causing this incorrect routing in Horizon Insurance's agent?",
   "options": [
@@ -3000,7 +3000,7 @@ const QUESTIONS_ENG = [
   "prevId": 37
  },
  {
-  "id": 118,
+  "id": 116,
   "category": "Agentforce & Data",
   "text": "Ursa Major Solar is developing a help agent that must answer customer questions by grounding prompts in data from both internal knowledge articles and an external partner portal. The Agentforce Specialist configures the agent to use a Data 360 search index. During testing in the Agentforce Builder, the agent occasionally provides conflicting answers, and the specialist needs to differentiate between these two grounding sources to troubleshoot the responses. Which Data 360 process should the specialist review to ensure the origin of the information is accurately identified and made available?",
   "options": [
@@ -3026,7 +3026,7 @@ const QUESTIONS_ENG = [
   "prevId": 233
  },
  {
-  "id": 119,
+  "id": 117,
   "category": "Agentforce Concepts",
   "text": "An Agentforce Specialist builds a new Service Agent that uses a custom action built on a flow. The agent has been tested in a sandbox and is now ready to deploy. What is a key consideration regarding the activation status of the agent in the production environment?",
   "options": [
@@ -3052,7 +3052,7 @@ const QUESTIONS_ENG = [
   "prevId": 45
  },
  {
-  "id": 120,
+  "id": 118,
   "category": "Agentforce & Data",
   "text": "An insurance company needs a Service Agent to ground its responses based on company-specific PDFs and a comprehensive knowledge base. Which type of retriever should the Agentforce Specialist use to meet this requirement?",
   "options": [
@@ -3078,7 +3078,7 @@ const QUESTIONS_ENG = [
   "prevId": 342
  },
  {
-  "id": 121,
+  "id": 119,
   "category": "Setup & Integration",
   "text": "Universal Containers has seen a high adoption rate of a new feature that uses generative AI to populate a summary field of a custom object, Competitor Analysis. All sales users have the same profile, but one user can't see the generative AI- enabled field icon next to the summary field. What is the most likely cause of the issue?",
   "options": [
@@ -3104,7 +3104,7 @@ const QUESTIONS_ENG = [
   "prevId": 326
  },
  {
-  "id": 122,
+  "id": 120,
   "category": "Prompt Engineering",
   "text": "What is the correct process to leverage Prompt Builder in a Salesforce org?",
   "options": [
@@ -3130,7 +3130,7 @@ const QUESTIONS_ENG = [
   "prevId": 44
  },
  {
-  "id": 123,
+  "id": 121,
   "category": "Setup & Integration",
   "text": "An administrator at Universal Containers has successfully deployed a new Service Agent from a sandbox to production using a change set. The Service Agent uses a prompt template that invokes a Salesforce flow to perform a complex calculation. In production, when users interact with the Service Agent, it fails with an error message every time the flow is supposed to run. The flow was included in the change set and is present in production. What is the most likely cause of this issue?",
   "options": [
@@ -3155,4 +3155,4 @@ const QUESTIONS_ENG = [
   "sourceRef": "download.pdf Q129 (p47)",
   "prevId": 81
  }
-]
+];
