@@ -456,30 +456,6 @@ const QUESTIONS_ESP = [
   "explanation": "El cálculo determinista y la reutilización precisa de valores requieren gestión de estado mediante variables de contexto. Ejecutar un Flow calcula el valor y asignarlo a una variable garantiza que la misma cifra validada sea reutilizada en las interacciones subsecuentes sin variaciones del LLM."
  },
  {
-  "id": 20,
-  "category": "Prompt Engineering",
-  "text": "Universal Containers (UC) quiere crear un prompt template que extraiga de forma consistente el número de modelo de producto específico y la cantidad requerida desde la consulta en un correo electrónico para redactar una respuesta al cliente. ¿Qué buena práctica debería implementar UC para lograr este objetivo?",
-  "options": [
-   {
-    "letter": "A",
-    "text": "Incorporar preguntas abiertas para alentar respuestas detalladas."
-   },
-   {
-    "letter": "B",
-    "text": "Proporcionar instrucciones claras y positivas junto con ejemplos de pocos disparos (few-shot examples)."
-   },
-   {
-    "letter": "C",
-    "text": "Usar un ajuste de temperatura alto para incrementar la creatividad del resultado."
-   }
-  ],
-  "answer": [
-   "A"
-  ],
-  "multi": false,
-  "explanation": "Nota: Para extracción estructurada y consistente de datos, las mejores prácticas de prompt engineering especifican dar instrucciones claras y positivas usando ejemplos 'few-shot'. (Nota sobre la clave del examen: En la versión oficial de la evaluación este ítem se encuentra registrado con la opción A)."
- },
- {
   "id": 21,
   "category": "Agentforce & Data",
   "text": "Al configurar una Data Library basada en carga de archivos, ¿cuáles son los tamaños máximos de archivo permitidos para archivos de texto/HTML y archivos PDF, respectivamente?",

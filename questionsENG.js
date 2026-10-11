@@ -497,34 +497,6 @@ const QUESTIONS_ENG = [
   "prevId": 3
  },
  {
-  "id": 20,
-  "category": "Prompt Engineering",
-  "text": "Universal Containers (UC) wants to create a prompt template that consistently extracts a customer's specific product model number and quantity from an email inquiry to draft a response back to the customer. Which best practice should UC implement to achieve this goal?",
-  "options": [
-   {
-    "letter": "A",
-    "text": "Incorporate open-ended questions to encourage detailed responses."
-   },
-   {
-    "letter": "B",
-    "text": "Provide clear, positive instructions and use few-shot examples."
-   },
-   {
-    "letter": "C",
-    "text": "Use a high temperature setting to increase creative output."
-   }
-  ],
-  "answer": [
-   "A"
-  ],
-  "multi": false,
-  "explanation": "Exam key as printed: Option A. Note: this PDF asks the same question again as Q92 and keys Option B there, and Salesforce's prompt-engineering guidance for reliable extraction is clear, positive instructions with few-shot examples (B) — open-ended questions invite variable output, and high temperature increases randomness.",
-  "sourceRef": "download.pdf Q21 (p8)",
-  "prevId": 92,
-  "review": true,
-  "reviewNote": "Key taken from download.pdf; the previous bank (Q92) keyed a different answer — see the note in the explanation. The PDF contains this question twice (Q21 and Q92) with different keys."
- },
- {
   "id": 21,
   "category": "Agentforce & Data",
   "text": "When configuring a file upload-based data library, what are the maximum allowed file sizes for text/HTML files and PDF files, respectively?",
