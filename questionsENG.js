@@ -209,33 +209,6 @@ const QUESTIONS_ENG = [
   "sourceRef": "download.pdf Q9 (p4)"
  },
  {
-  "id": 9,
-  "category": "Prompt Engineering",
-  "text": "Universal Containers (UC) needs to create a sales email with a custom prompt template. UC needs to ground on the following data: Opportunity Products Events near the customer Tone and voice examples How should UC obtain related items?",
-  "options": [
-   {
-    "letter": "A",
-    "text": "Utilize a standard email template and manually insert the required data fields."
-   },
-   {
-    "letter": "B",
-    "text": "Create a Flex template that takes the records in question as inputs."
-   },
-   {
-    "letter": "C",
-    "text": "Call a prompt-initiated flow to fetch and ground the required data."
-   }
-  ],
-  "answer": [
-   "B"
-  ],
-  "multi": false,
-  "explanation": "A Flex prompt template accepts several unrelated records as inputs — the opportunity products, the nearby events and the tone/voice examples — so all three can be referenced as resources in one email prompt. Note: this PDF asks the same question again as Q119 and keys the prompt-initiated flow there; both mechanisms exist, and a Flex template is the direct way to take multiple record inputs.",
-  "sourceRef": "download.pdf Q10 (p4)",
-  "review": true,
-  "reviewNote": "The PDF contains this question twice (Q10 and Q119) with different keys."
- },
- {
   "id": 10,
   "category": "Agentforce Concepts",
   "text": "An Agentforce Specialist is building a multi-step onboarding workflow using agent actions. The workflow includes four sequential steps: account creation, profile setup, settings configuration, and finalization. After the create_account action executes successfully, the system must immediately send a verification email without requiring an additional user interaction. Which approach should the specialist use to ensure the verification email is automatically triggered after account creation?",

@@ -192,30 +192,6 @@ const QUESTIONS_ESP = [
   "explanation": "Una Agentforce Data Library acepta la carga de archivos directamente: se crea la librería, se suben los PDFs de políticas y la plataforma se encarga del procesamiento, fragmentación (chunking) e indexación en Data 360 en segundo plano con el menor esfuerzo manual."
  },
  {
-  "id": 9,
-  "category": "Prompt Engineering",
-  "text": "Universal Containers (UC) necesita crear un correo de ventas utilizando un prompt template personalizado. UC necesita fundamentar (grounding) el prompt en los siguientes datos: Opportunity Products, Eventos cercanos al cliente, y ejemplos de Tono y Voz. ¿Cómo debería UC obtener los elementos relacionados?",
-  "options": [
-   {
-    "letter": "A",
-    "text": "Utilizar un plantilla de correo estándar e insertar manualmente los campos de datos requeridos."
-   },
-   {
-    "letter": "B",
-    "text": "Crear un Flex template que tome los registros en cuestión como inputs."
-   },
-   {
-    "letter": "C",
-    "text": "Llamar a un prompt-initiated flow para extraer y fundamentar los datos requeridos."
-   }
-  ],
-  "answer": [
-   "B"
-  ],
-  "multi": false,
-  "explanation": "Un Flex prompt template acepta varios registros no relacionados directamente como entradas (inputs) —los productos de la oportunidad, los eventos cercanos y los ejemplos de tono/voz— permitiendo que todos sean referenciados como recursos en un solo prompt de correo electrónico."
- },
- {
   "id": 10,
   "category": "Agentforce Concepts",
   "text": "Un Agentforce Specialist está construyendo un flujo de trabajo de onboarding de múltiples pasos utilizando agent actions. El flujo incluye cuatro pasos secuenciales: creación de cuenta, configuración de perfil, configuración de ajustes y finalización. Después de que la acción create_account se ejecuta exitosamente, el sistema debe enviar inmediatamente un correo de verificación sin requerir interacción adicional del usuario. ¿Qué enfoque debería usar el especialista para asegurar que el correo de verificación se active automáticamente después de crear la cuenta?",
