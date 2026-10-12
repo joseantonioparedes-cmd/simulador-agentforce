@@ -8,7 +8,7 @@ let showWrongOnly = false;
 // Control de Paginación (Desactivada por defecto)
 let isPaginated = false;
 let currentPage = 1;
-const pageSize = 30;
+const pageSize = 20;
 
 // Idioma actual: 'ENG' o 'MIRROR' (Se elimina 'ESP' como modo individual)
 let currentLang = localStorage.getItem("sf_agentforce_lang") || "ENG";
