@@ -6,7 +6,7 @@ let isExamMode = false;
 let showWrongOnly = false; 
 
 // Control de Paginación (Desactivada por defecto)
-let isPaginated = false;
+let isPaginated = localStorage.getItem("sf_agentforce_paginated") === "true";
 let currentPage = 1;
 const pageSize = 20;
 
@@ -289,7 +289,7 @@ function resetSectionStats(sectionKey) {
 function openSection(sectionKey) {
   isExamMode = false;
   showWrongOnly = false;
-  isPaginated = false;
+  //isPaginated = false;
   currentPage = 1;
   updateToggleBtnUI();
 
@@ -348,7 +348,7 @@ function openSection(sectionKey) {
 function openAllQuestionsStudyMode() {
   isExamMode = false;
   showWrongOnly = false;
-  isPaginated = false;
+  //isPaginated = false;
   currentPage = 1;
   updateToggleBtnUI();
 
@@ -411,6 +411,7 @@ function openAllQuestionsStudyMode() {
 function togglePagination() {
   const checkbox = document.getElementById("toggle-paginate-checkbox");
   isPaginated = checkbox ? checkbox.checked : false;
+  localStorage.setItem("sf_agentforce_paginated", isPaginated);
   currentPage = 1;
   renderQuestionsList();
 }
