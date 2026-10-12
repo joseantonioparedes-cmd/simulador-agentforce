@@ -759,7 +759,7 @@ const QUESTIONS_ENG = [
  },
  {
   "id": 30,
-  "category": "Agentforce Concepts",
+  "category": "none",
   "text": "Universal Containers has configured an agent to handle customer return requests. When a customer initiates a return, the agent must calculate a specific restocking fee. The agent needs to quote this exact fee to the customer and then reuse that same fee amount when summarizing the final refund. The Specialist needs to ensure the agent uses deterministic logic to calculate the fee and consistently reuses the exact same value without guessing or hallucinating. How should the specialist configure the agent to achieve this behavior?",
   "options": [
    {
