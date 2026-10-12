@@ -697,7 +697,8 @@ const QUESTIONS_ESP = [
  },
  {
   "id": 30,
-  "category": "none",
+  "disabled": true,
+  "category": "Agentforce Concepts",
   "text": "Universal Containers ha configurado un agente para gestionar solicitudes de devolución de clientes. Cuando un cliente inicia una devolución, el agente debe calcular un cargo por reabastecimiento específico. El agente necesita cotizar este monto exacto al cliente y luego reutilizar ese mismo valor al resumir el reembolso final. El Specialist necesita asegurar que el agente use lógica determinista para calcular la tarifa y reutilice de forma consistente exactamente el mismo valor sin adivinar ni alucinar. ¿Cómo debería el especialista configurar el agente para lograr este comportamiento?",
   "options": [
    {

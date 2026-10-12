@@ -66,6 +66,9 @@ function groupQuestionsByCategory() {
 
   if (Array.isArray(rawEngPool)) {
     rawEngPool.forEach(qEng => {
+      // Ignorar SOLO si tiene explícitamente la propiedad disabled en true
+      if (qEng.disabled === true) return;
+
       const cat = qEng.category || "General";
       if (!questionsBySection[cat]) {
         questionsBySection[cat] = [];
@@ -78,8 +81,8 @@ function groupQuestionsByCategory() {
         id: qEng.id,
         question: qEng.text || qEng.question,
         options: engOptionsTexts,
-        originalOptionsENG: engOptionsTexts, // Base inmutable en inglés
-        answer: correctIndices,             // Índices dictados únicamente por inglés
+        originalOptionsENG: engOptionsTexts,
+        answer: correctIndices,
         multiple: qEng.multi !== undefined ? qEng.multi : correctIndices.length > 1,
         explanation: qEng.explanation || "Sin explicación disponible."
       });
